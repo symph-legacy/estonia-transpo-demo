@@ -80,9 +80,9 @@ WSGI_APPLICATION = 'estoniatranspo.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'estonia',
-        'USER': 'symph',
-        'PASSWORD': '',
+        'NAME': os.environ['DB_NAME'],
+        'USER': os.environ['DB_USERNAME'],
+        'PASSWORD': os.environ['DB_PASSWORD'],
         'HOST': 'localhost',
         'PORT': '',
     }
