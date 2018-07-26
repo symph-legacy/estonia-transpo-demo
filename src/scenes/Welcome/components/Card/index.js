@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Card, CardBody } from 'reactstrap';
 
 import Icon from 'react-icons-kit';
+import { Link } from 'react-router-dom';
 import { bars } from 'react-icons-kit/fa/bars';
-
 class CardComponent extends Component {
     render() {
         return (
@@ -18,12 +18,12 @@ class CardComponent extends Component {
                         </div>
                     </div>
                     <div className="text-left">
-                        <a href={this.props.info.link}>
+                        <Link to={this.props.info.link}>
                             <h6>{this.props.info.title}</h6>
-                        </a>
+                        </Link>
                         <p>
                             {this.props.info.description}
-                            <a className="ml5" href={this.props.info.link}>More</a>
+                            <Link className="ml5" to={this.props.info.link}>More</Link>
                         </p>
                     </div>
                 </CardBody>
