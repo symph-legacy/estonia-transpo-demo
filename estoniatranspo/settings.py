@@ -30,6 +30,9 @@ else:
 
 ALLOWED_HOSTS = []
 
+if not DEBUG:
+    ALLOWED_HOSTS.append(os.environ['HOST'])
+
 
 # Application definition
 
