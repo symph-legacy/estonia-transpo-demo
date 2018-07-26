@@ -1,0 +1,136 @@
+.es-nav {
+    background-color: #666;
+}
+
+.es-nav .navbar-brand,
+.es-search-btn,
+.navbar-light .navbar-nav .nav-link {
+    color: #fff;
+}
+
+.es-search-btn {
+    background-color: transparent;
+    border: 0px;
+}
+
+.navbar-toggler {
+    border: 0px;
+}
+
+.navbar-toggler-icon { 
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important
+}
+
+.es-btn-group {
+    margin-top: 15px;
+    display: flex;
+}
+
+.es-btn-group .btn {
+    flex: 1 !important;
+    border-color: #666;
+    color: #666;
+}
+
+.es-btn-group .btn:hover {
+    background-color: #666;
+    color: #ffffff;
+}
+
+.es-btn-group .btn-outline-secondary:not(:disabled):not(.disabled).active,
+.es-btn-group .btn-outline-secondary:not(:disabled):not(.disabled):active {
+    background-color: #666;
+    border-color: #666;
+}
+
+.es-map {
+    position: relative;
+    height: 80vh;
+    width: 100%;
+}
+
+.es-destination-wrapper {
+    background-color: rgba(0,0,0,0.05);
+    border-radius: 5px;
+    padding: 10px;
+    position: absolute;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    bottom: 30px;
+    left: 10px;
+}
+
+
+@media (max-width: 768px) {
+    .es-destination-wrapper {
+        width: 70%;
+    }
+}
+
+@media (max-width: 425px) {
+    .es-destination-wrapper {
+        width: calc(100% - 20px);
+        top: 15px;
+        bottom: auto;
+    }
+}
+
+
+.es-destination-wrapper .es-destination {
+    flex: 1;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.es-marker-wrapper {
+    height: 1px;
+    width: 1px;
+    padding: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
+.es-marker-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100px;
+    width: 100px;
+    background-color: rgba(0,0,0,0.07);
+    border-radius: 50%;
+}
+
+.es-marker-wrapper > .es-marker {
+    position: relative;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    color: #666;
+}
+
+.es-suggestion-box  {
+    position: absolute;
+    z-index: 10;
+    background-color: #ffffff;
+    width: 100%;
+    padding: 5px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.es-suggestion-box .es-suggestion-item {
+    margin-bottom: 5px;
+}

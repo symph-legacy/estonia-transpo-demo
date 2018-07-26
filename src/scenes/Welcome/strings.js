@@ -3,7 +3,7 @@ export const CARD_STATIC = [
         "title": "Ask for Ride",
         "acronym": "AR",
         "description": "In our municipality we have ride sharing service...",
-        "link": "#",
+        "link": "/order",
         "bgColor": "#4fa7cc"
     },
     {
