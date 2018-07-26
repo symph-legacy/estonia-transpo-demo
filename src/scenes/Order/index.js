@@ -57,13 +57,15 @@ class Order extends Component {
         }
 
         if (this.props.from &&
-            this.props.target && 
-            this.props.from.address &&
-            this.props.target.address) {
-            this.state.directionsDisplay.setMap(this.state.map);
+            this.props.from.lat &&
+            this.props.from.lat &&
+            this.props.target &&
+            this.props.target.lat &&
+            this.props.target.lng ) {
+
             this.state.directionsService.route({
-                origin: this.props.from.address,
-                destination: this.props.target.address,
+                origin: `${this.props.from.lat}, ${this.props.from.lng}`,
+                destination: `${this.props.target.lat}, ${this.props.target.lng}`,
                 waypoints: [],
                 optimizeWaypoints: true,
                 travelMode: 'DRIVING'
@@ -113,7 +115,11 @@ class Order extends Component {
                                     maps,
                                     mapLoaded: true,
                                     directionsService: new maps.DirectionsService(),
-                                    directionsDisplay: new maps.DirectionsRenderer() })
+                                    directionsDisplay: new maps.DirectionsRenderer({
+                                        map,
+                                        suppressMarkers: true
+                                    })
+                                });
                             }}
                             yesIWantToUseGoogleMapApiInternals={true}
                             center={this.props.center}
