@@ -20,12 +20,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'g$gya=$yevn64lozx()6is=g2*#x%i4o8n+3$6%pvn217x#8pc'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if 'ENV' not in os.environ:
+    DEBUG = True
+else:
+    DEBUG = os.environ['ENV'] != 'PRODUCTION'
 
-ALLOWED_HOSTS = ['35.228.113.202']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -38,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',
     'estoniatranspo.app'
 ]
 
@@ -49,7 +53,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware'
 ]
+
+# CORS configuration
+if DEBUG:
+    CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'estoniatranspo.urls'
 

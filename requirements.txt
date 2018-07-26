@@ -2,6 +2,7 @@ astroid==1.6.5
 backports.functools-lru-cache==1.5
 configparser==3.5.0
 Django==1.11.14
+django-cors-headers==2.4.0
 djangorestframework==3.8.2
 enum34==1.1.6
 futures==3.2.0
@@ -13,4 +14,5 @@ pylint==1.9.2
 pytz==2018.5
 singledispatch==3.4.0.3
 six==1.11.0
+uWSGI==2.0.17.1
 wrapt==1.10.11
