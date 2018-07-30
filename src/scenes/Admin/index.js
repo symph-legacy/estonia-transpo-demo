@@ -24,7 +24,7 @@ class Admin extends Component {
   }
   render() {
     return (
-      <div>
+      <div id="Admin">
         <Container fluid>
           <Row className="border-bottom">
             <Col>
