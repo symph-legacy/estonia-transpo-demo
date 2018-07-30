@@ -1,8 +1,8 @@
 import { createBrowserHistory } from 'history'
-import { createStore, compose, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
-
 import thunk from 'redux-thunk'
+import { composeWithDevTools } from 'remote-redux-devtools';
 import rootReducer from './reducers'
 
 const initialState = {};
@@ -13,12 +13,11 @@ export const history = createBrowserHistory();
 const store = createStore(
     connectRouter(history)(rootReducer),
     initialState,
-    compose(
+    composeWithDevTools(
         applyMiddleware(
             routerMiddleware(history),
             ...middleware
-        ),
-        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+        )
     )
 );
 
