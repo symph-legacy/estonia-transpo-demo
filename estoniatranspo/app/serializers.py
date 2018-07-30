@@ -16,7 +16,7 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class RideOrderSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = RideOrder
-        fields = ('id', 'name', 'time', 'place', 'roundtrip', 'status', 'created', 'updated')
+        fields = ('id', 'name', 'roundtrip', 'current_location_name', 'target_location_name', 'status', 'created', 'updated')
 
 class IssueSerializer(serializers.HyperlinkedModelSerializer):
     status = serializers.CharField(source='get_status_display')
