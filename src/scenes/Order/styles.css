@@ -45,8 +45,13 @@
 
 .es-map {
     position: relative;
-    height: 80vh;
+    height: 70vh;
     width: 100%;
+    border: 0px;
+}
+
+.es-map.embedded {
+    height: 500px;
 }
 
 .es-destination-wrapper {
@@ -133,4 +138,51 @@
 
 .es-suggestion-box .es-suggestion-item {
     margin-bottom: 5px;
+}
+
+.es-avatar {
+    background-color: #3DBECC;
+    flex-shrink: 0;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    margin-right: 10px;
+}
+
+.es-btn-picker {
+    border-radius: 25px;
+    min-width: 150px;
+}
+
+.react-datepicker__time-container {
+    width: 100px;
+}
+
+.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box {
+    width: 100px;
+}
+
+.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list {
+    padding: 0px !important;
+}
+
+.icon-wrapper-circle {
+    height: 100px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 100px auto;
+    border: 4px solid #38A7F9;
+    border-radius: 50%;
+    color: #38A7F9;
+}
+
+.icon-wrapper-circle svg {
+    height: 32px;
+    width: 32px;
+}
+
+.es-confirmation-box .btn {
+    min-width: 200px;
 }

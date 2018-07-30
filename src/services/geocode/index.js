@@ -1,14 +1,17 @@
 import queryString from 'query-string';
 
+const GOOGLE_API_KEY = 'AIzaSyDbESyZ10IaxgVmjcMBDN2WlGzSEu9vzMM';
+const GMAP_BASE_URL = 'https://maps.googleapis.com'
+
 export const getAddressByLatLng = latlng => {
     let params = {
-        key: 'AIzaSyDbESyZ10IaxgVmjcMBDN2WlGzSEu9vzMM',
+        key: GOOGLE_API_KEY,
         latlng: `${latlng.lat},${latlng.lng}`,
     };
 
     let qs = queryString.stringify(params);
     return fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?${qs}`)
+        `${GMAP_BASE_URL}/maps/api/geocode/json?${qs}`)
         .then((res) => res.json())
         .then((json) => {
             if (json.status !== 'OK') {
@@ -17,4 +20,3 @@ export const getAddressByLatLng = latlng => {
             return json;
         });
 }
-

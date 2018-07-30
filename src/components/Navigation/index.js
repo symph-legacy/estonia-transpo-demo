@@ -2,7 +2,6 @@ import {
     Collapse,
     Navbar,
     NavbarToggler,
-    NavbarBrand,
     Nav,
     NavItem
 } from 'reactstrap';
@@ -33,7 +32,7 @@ class Navigation extends Component {
       <Navbar className="es-nav" light expand="md">
         <div className="d-flex align-items-center">
           <NavbarToggler onClick={this.toggle} />
-          <NavbarBrand href="/">{this.props.brand}</NavbarBrand>
+          <Link className="navbar-brand" to="/order">{this.props.brand}</Link>
         </div>
         <button type="button" className="es-search-btn">
           <Icon icon={search} />

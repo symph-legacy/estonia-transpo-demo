@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from "react-redux";
+import PropTypes from 'prop-types';
 
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
-import { classnames } from '../../services/helpers'
-import { getAddressByLatLng } from '../../services/geocode'
+import { classnames, isEmptyObject } from '../../services/helpers'
+
 import {
     changeMapCenter,
     changeCurrentLocation
@@ -18,39 +19,39 @@ import {
 class LocationSearchInput extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
-            address: '',
+            address: this.props.defaultAddress,
+            done: this.props.defaultAddress,
             errorMessage: '',
             latitude: null,
             longitude: null,
             isGeocoding: false,
+            showClearButton: false
         };
     }
 
-    componentDidMount = () => {
-        if (navigator.geolocation && this.props.setDefault) {
-            navigator.geolocation.getCurrentPosition(position => {
-                let latlng = {
-                    "lat": position.coords.latitude,
-                    "lng": position.coords.longitude,
-                }
-                getAddressByLatLng(latlng).then(response => {
-                    let places = response.results;
-                    if(places && places.length) {
-                        this.props.changeMapCenter(latlng);
-
-                        latlng["address"] = places[0].formatted_address
-                        this.props.changeCurrentLocation(latlng);
-                        this.setState({
-                            address: places[0].formatted_address
-                        });
-                        
-                    }
-                });
+    componentDidMount() {
+        if(!isEmptyObject(this.props.from) && !isEmptyObject(this.props.target)) {
+            this.props.renderRoute();
+            this.setState({
+                done: false
             });
         }
     }
-    
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.defaultAddress !== prevState.address
+            && prevState.done
+            && nextProps.defaultAddress) {
+            return ({
+                address: nextProps.defaultAddress,
+                done: false
+            });
+        }
+
+        return null;
+    }
 
     handleChange = address => {
         this.setState({
@@ -67,14 +68,8 @@ class LocationSearchInput extends React.Component {
             .then(res => getLatLng(res[0]))
             .then(({ lat, lng }) => {
                 this.props.changeMapCenter({ lat, lng });
-                this.props.propsDispatch({
-                    lat, lng, address: selected });
+                this.props.propsDispatch({ lat, lng, address: selected });
                 this.props.renderRoute();
-                // this.setState({
-                //     latitude: lat,
-                //     longitude: lng,
-                //     isGeocoding: false,
-                // });
             })
             .catch(error => {
                 this.setState({ isGeocoding: false });
@@ -91,7 +86,7 @@ class LocationSearchInput extends React.Component {
     };
 
     handleError = (status, clearSuggestions) => {
-        console.log('Error from Google Maps API', status); // eslint-disable-line no-console
+        console.log('Error from Google Maps API', status);
         this.setState({ errorMessage: status }, () => {
             clearSuggestions();
         });
@@ -130,7 +125,7 @@ class LocationSearchInput extends React.Component {
                                         })}
                                     />
                                     <InputGroupAddon addonType="prepend">
-                                        {this.state.address.length > 0 && (
+                                        {(this.state.address.length > 0 && this.state.showClearButton) && (
                                             <button
                                                 className="input-group-text Demo__clear-button"
                                                 onClick={this.handleCloseClick}
@@ -167,7 +162,6 @@ class LocationSearchInput extends React.Component {
                     }}
                 </PlacesAutocomplete>
                 {errorMessage.length > 0 && (
-                    // <div className="Demo__error-message d-none">{this.state.errorMessage}</div>
                     <div className="es-error-message">Place not found.</div>
                 )}
             </div>
@@ -175,8 +169,18 @@ class LocationSearchInput extends React.Component {
     }
 }
 
+LocationSearchInput.propTypes = {
+    changeMapCenter: PropTypes.func.isRequired,
+    changeCurrentLocation: PropTypes.func.isRequired
+}
+
 const mapStateToProps = state => ({
-    selectedOption: state.order.selectedPaymentOption
+    from: state.order.from,
+    target: state.order.target,
 });
 
-export default connect(mapStateToProps, { changeMapCenter, changeCurrentLocation })(LocationSearchInput);
+
+export default connect(mapStateToProps, {
+    changeMapCenter,
+    changeCurrentLocation
+})(LocationSearchInput);
