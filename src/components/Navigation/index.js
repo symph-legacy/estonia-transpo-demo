@@ -48,6 +48,9 @@ class Navigation extends Component {
             <NavItem>
               <Link className="nav-link" to="/order">Issue</Link>
             </NavItem>
+            <NavItem>
+              <Link className="nav-link" to="/orders">History</Link>
+            </NavItem>
           </Nav>
         </Collapse>
       </Navbar>

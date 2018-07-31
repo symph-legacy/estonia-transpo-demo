@@ -15,6 +15,14 @@ export const isEmptyObject = obj => {
     return JSON.stringify(obj) === JSON.stringify({});
 }
 
+export const truncate = function (str, n, useWordBoundary=true) {
+    if (str.length <= n) { return str; }
+    var subString = str.substr(0, n - 1);
+    return (useWordBoundary
+        ? subString.substr(0, subString.lastIndexOf(' '))
+        : subString) + "...";
+}
+
 export const classnames = (...args) => {
     const classes = [];
     args.forEach(arg => {

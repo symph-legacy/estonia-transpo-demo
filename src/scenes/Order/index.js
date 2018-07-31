@@ -309,7 +309,7 @@ class Order extends Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
+                    <Col md="6">
                         <Card>
                             <CardBody>
                                 <Row>
