@@ -27,14 +27,5 @@
         "build": "react-scripts build",
         "test": "react-scripts test --env=jsdom",
         "eject": "react-scripts eject"
-    },
-<<<<<<< HEAD
-    "devDependencies": {
-        "redux-devtools-extension": "^2.13.5",
-        "remote-redux-devtools": "^0.5.12"
-    },
-    "proxy": "http://localhost:8000/"
-=======
-    "devDependencies": {}
->>>>>>> Temporarily remove redux dev tools
+    }
 }
