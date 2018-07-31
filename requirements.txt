@@ -3,6 +3,7 @@ backports.functools-lru-cache==1.5
 configparser==3.5.0
 Django==1.11.14
 django-cors-headers==2.4.0
+django-request-logging==0.6.5
 djangorestframework==3.8.2
 enum34==1.1.6
 futures==3.2.0

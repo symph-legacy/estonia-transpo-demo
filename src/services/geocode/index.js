@@ -1,4 +1,4 @@
-import queryString from 'query-string';
+import querystring from 'querystring';
 
 const GOOGLE_API_KEY = 'AIzaSyDbESyZ10IaxgVmjcMBDN2WlGzSEu9vzMM';
 const GMAP_BASE_URL = 'https://maps.googleapis.com'
@@ -9,7 +9,7 @@ export const getAddressByLatLng = latlng => {
         latlng: `${latlng.lat},${latlng.lng}`,
     };
 
-    let qs = queryString.stringify(params);
+    let qs = querystring.stringify(params);
     return fetch(
         `${GMAP_BASE_URL}/maps/api/geocode/json?${qs}`)
         .then((res) => res.json())

@@ -49,6 +49,7 @@ import {
 } from "reactstrap";
 
 import "./styles.css";
+import { submitOrder } from "../../services/api";
 
 const GOOGLE_API_KEY = 'AIzaSyDbESyZ10IaxgVmjcMBDN2WlGzSEu9vzMM';
 
@@ -68,6 +69,7 @@ class Order extends Component {
             isDatePickerOpen2: false,
             isTimePickerOpen1: false,
             isTimePickerOpen2: false,
+            isButtonLoading: false,
             distance: ""
         };
     }
@@ -464,8 +466,43 @@ class Order extends Component {
                     <Col className="text-center p15">
                         <Button
                             color="primary"
-                            onClick={() => this.props.nextStep(this.props.step + 1)}>
-                            Confirm Order
+                            onClick={() => {
+                                let params = {
+                                    "name": "Kersti Kangro",
+                                    "roundtrip": false,
+                                    "payment_option": this.props.selectedOption,
+                                    "direction_option": this.props.selectedDirection,
+                                    "status": "new",
+                                    "current_location_name": this.props.from.address,
+                                    "current_location_lat": `${this.props.from.lat}`,
+                                    "current_location_lng": `${this.props.from.lng}`,
+                                    "target_location_name": this.props.target.address,
+                                    "target_location_lat": `${this.props.target.lat}`,
+                                    "target_location_lng": `${this.props.target.lng}`,
+                                    "day_chosen": this.props.chosenDay1,
+                                    "time_chosen": this.props.chosenTime1,
+                                    "day_chosen2": this.props.chosenDay2,
+                                    "time_chosen2": this.props.chosenTime2
+                                }
+                    
+                                if(params['direction_option'] !== "ROUNDTRIP") {
+                                    delete params["day_chosen2"]
+                                    delete params["time_chosen2"]
+                                }
+
+                                submitOrder(params).then(response => {
+                                    this.setState({
+                                        isButtonLoading: !this.state.isButtonLoading
+                                    }, () => {
+                                        if (response.id) {
+                                            this.props.nextStep(this.props.step + 1);
+                                        } else {
+                                            alert("Something went wrong...");
+                                        }
+                                    });
+                                });
+                            }}>
+                            { ( this.state.isButtonLoading ? 'Confirming...' : 'Confirm Order') }
                         </Button>
                     </Col>
                 </Row>
@@ -534,7 +571,11 @@ Order.propTypes = {
         lng: PropTypes.number,
         address: PropTypes.string
     }),
-    step: PropTypes.number.isRequired
+    step: PropTypes.number.isRequired,
+    chosenDay1: PropTypes.string.isRequired,
+    chosenDay2: PropTypes.string.isRequired,
+    chosenTime1: PropTypes.string.isRequired,
+    chosenTime2: PropTypes.string.isRequired
 }
 
 const mapStateToProps = state => ({
