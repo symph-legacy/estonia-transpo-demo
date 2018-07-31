@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 
 if not DEBUG:
     ALLOWED_HOSTS.append(os.environ['HOST'])
-    STATIC_ROOT = '/home/nell/estonia-transpo-demo/estonia-transpo-demo/static'
+    STATIC_ROOT = '/home/nell/estonia-transpo-demo/build/static'
 
 
 # Application definition
