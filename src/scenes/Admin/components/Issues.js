@@ -10,7 +10,7 @@ export default class Issues extends Component {
     issues: []
   }
   componentDidMount() {
-    fetch('http://localhost:8000/api/issues/', {
+    fetch('/api/issues/', {
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
