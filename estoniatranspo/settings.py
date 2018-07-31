@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 if not DEBUG:
     ALLOWED_HOSTS.append(os.environ['HOST'])
+    STATIC_ROOT = '/home/nell/estonia-transpo-demo/estonia-transpo-demo/static'
 
 
 # Application definition
@@ -144,7 +145,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'build/static'),
+    os.path.join(BASE_DIR, 'build', 'static'),
 ]
 
 LOGGING = {
