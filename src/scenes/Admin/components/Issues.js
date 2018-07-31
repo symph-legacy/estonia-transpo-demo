@@ -4,7 +4,7 @@ import { Table, Row, Col } from 'reactstrap';
 import { Icon } from 'react-icons-kit';
 import { pencil } from 'react-icons-kit/fa/pencil';
 import { trash } from 'react-icons-kit/fa/trash';
-// I am very beautiful
+
 export default class Issues extends Component {
   state = {
     issues: []
