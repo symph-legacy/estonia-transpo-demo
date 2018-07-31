@@ -113,5 +113,6 @@ yarn.lock
 # .DS_Store
 .DS_Store
 
-# Media
+# Django media and static dirs
 media/
+static/
