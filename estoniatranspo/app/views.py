@@ -28,3 +28,6 @@ class RideOrderViewSet(viewsets.ModelViewSet):
 class IssueViewSet(viewsets.ModelViewSet):
     queryset = Issue.objects.all()
     serializer_class = IssueSerializer
+
+    def pre_save(self, obj):
+        obj.attachments = self.request.FILES.get('file')

@@ -27,7 +27,7 @@ export default class Issues extends Component {
     return (
       <Row>
         <Col>
-          <div className="d-flex m-3">
+          <div className="d-flex mb-3">
             <div className="p-2">{this.state.issues.length} items &bull; Sorted by Name</div>
             <div className="ml-auto p-2">
               <NavLink to={`${this.props.match.url}/new`} className="button-primary">New Issue</NavLink>

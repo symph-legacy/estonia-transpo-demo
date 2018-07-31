@@ -49,5 +49,6 @@ class Issue(models.Model):
         ('new', 'New'),
         ('in_progress', 'In Progress')
     ))
+    attachments = models.FileField(blank=True, default='', upload_to='uploads/')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

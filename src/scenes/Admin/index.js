@@ -43,7 +43,7 @@ class Admin extends Component {
               </div>
             </Col>
           </Row>
-          <Row id="navigation">
+          <Row id="navigation" className="mb-3">
             <Col>
               <Nav tabs>
                 <NavItem>
