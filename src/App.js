@@ -5,6 +5,8 @@ import { ConnectedRouter } from 'connected-react-router'
 
 import Welcome from "./scenes/Welcome";
 import Order from "./scenes/Order";
+import OrderList from "./scenes/OrderList";
+import IssueList from "./scenes/IssueList";
 
 import store, { history } from "./store";
 import Admin from './scenes/Admin';
@@ -19,6 +21,8 @@ class App extends Component {
               <Route exact path="/" component={Welcome} />
               <Route path="/admin" component={Admin} />
               <Route exact path="/order" component={Order} />
+              <Route exact path="/orders" component={OrderList} />
+              <Route exact path="/issues" component={IssueList} />
             </Switch>
           </BrowserRouter>
         </ConnectedRouter>

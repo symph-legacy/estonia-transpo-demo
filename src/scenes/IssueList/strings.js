@@ -1,0 +1,1 @@
+export const NAV_BRAND = "Issue List"

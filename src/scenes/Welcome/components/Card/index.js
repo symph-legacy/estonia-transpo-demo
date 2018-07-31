@@ -4,7 +4,18 @@ import { Card, CardBody } from 'reactstrap';
 import Icon from 'react-icons-kit';
 import { Link } from 'react-router-dom';
 import { bars } from 'react-icons-kit/fa/bars';
+
+import { truncate } from "../../../../services/helpers";
+
 class CardComponent extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            showLess: true
+        }
+    }
+
     render() {
         return (
             <Card className="mb25 es-card">
@@ -22,8 +33,15 @@ class CardComponent extends Component {
                             <h6>{this.props.info.title}</h6>
                         </Link>
                         <p>
-                            {this.props.info.description}
-                            <Link className="ml5" to={this.props.info.link}>More</Link>
+                            {(
+                                (this.state.showLess) ? truncate(this.props.info.description, 50)
+                                    : this.props.info.description
+                            )}
+                            <button className="btn btn-link"
+                                href="#"
+                                onClick={ () => this.setState({ showLess: !this.state.showLess }) }>
+                                { (this.state.showLess) ? "More" : "Less" }
+                            </button>
                         </p>
                     </div>
                 </CardBody>
