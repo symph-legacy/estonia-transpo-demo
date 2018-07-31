@@ -22,7 +22,7 @@ export default class Issue extends Component {
       reporter: this.state.reporter,
       status: this.state.status
     }
-    fetch('http://localhost:8000/api/issues/', {
+    fetch('/api/issues/', {
       method: 'post',
       mode: 'cors',
       headers: {
