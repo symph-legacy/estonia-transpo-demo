@@ -2,11 +2,18 @@ import {
     TOGGLE_PAYMENT,
     CHANGE_MAP_CENTER,
     CHANGE_CURRENT_LOCATION,
-    CHANGE_TARGET_LOCATION
+    CHANGE_TARGET_LOCATION,
+    NEXT_STEP,
+    TOGGLE_DIRECTION,
+    CHANGE_DAY1,
+    CHANGE_DAY2,
+    CHANGE_TIME1,
+    CHANGE_TIME2
 } from "./strings";
 
 const initialState = {
     selectedPaymentOption: "CHILD",
+    selectedDirection: "ROUNDTRIP",
     center: {
         lat: 58.5953,
         lng: 25.0136
@@ -16,7 +23,23 @@ const initialState = {
         lng: 25.0136,
         address: "Estonia"
     },
-    target: {}
+    target: {},
+    // from: {
+    //     lat: 10.304171,
+    //     lng: 123.891467,
+    //     address: "Symph Development Company"
+    // },
+    // target: {
+    //     lat: 10.3181,
+    //     lng: 123.9051,
+    //     address: "Ayala Center Cebu"
+    // },
+    step: 1,
+    chosenDay1: "",
+    chosenDay2: "",
+    chosenTime1: "",
+    chosenTime2: "",
+
 }
 
 export default function (state = initialState, action) {
@@ -25,6 +48,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 selectedPaymentOption: action.payload
+            }
+        case TOGGLE_DIRECTION:
+            return {
+                ...state,
+                selectedDirection: action.payload
             }
         case CHANGE_MAP_CENTER:
             return {
@@ -40,6 +68,31 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 target: action.payload
+            }
+        case NEXT_STEP:
+            return {
+                ...state,
+                step: action.payload
+            }
+        case CHANGE_DAY1:
+            return {
+                ...state,
+                chosenDay1: action.payload
+            }
+        case CHANGE_DAY2:
+            return {
+                ...state,
+                chosenDay2: action.payload
+            }
+        case CHANGE_TIME1:
+            return {
+                ...state,
+                chosenTime1: action.payload
+            }
+        case CHANGE_TIME2:
+            return {
+                ...state,
+                chosenTime2: action.payload
             }
         default:
             return state;

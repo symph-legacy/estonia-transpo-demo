@@ -4,3 +4,18 @@ body {
   font-family: sans-serif;
   background-color: #f2f4f8;
 }
+
+
+.p15 { padding: 15px; }
+
+.pr0 { padding-right: 0px; }
+
+.pl0 { padding-left: 0px; }
+
+.mt20 { margin-top: 20px; }
+
+.mb0 { margin-bottom: 0px; }
+.mb10 { margin-bottom: 10px; }
+.mb15 { margin-bottom: 15px; }
+.mb20 { margin-bottom: 20px; }
+.mb100 { margin-bottom: 100px; }
