@@ -32,5 +32,5 @@ export const getAllOrders = () => {
 }
 
 export const getLatestOrder = () => {
-    return fetch(`${BASE_URL}api/ride_orders/latest`).then((res) => res.json());
+    return fetch(`${BASE_URL}api/ride_order/latest`).then((res) => res.json());
 }

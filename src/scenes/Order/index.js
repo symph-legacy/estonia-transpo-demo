@@ -110,7 +110,7 @@ class Order extends Component {
                     }
                 });
             } else {
-                console.log("Failed to get latest order");
+                console.log("Latest order not found.");
             }
         });
     }
@@ -521,7 +521,6 @@ class Order extends Component {
                                     "roundtrip": false,
                                     "payment_option": this.props.selectedOption,
                                     "direction_option": this.props.selectedDirection,
-                                    "status": "new",
                                     "current_location_name": this.props.from.address,
                                     "current_location_lat": `${this.props.from.lat}`,
                                     "current_location_lng": `${this.props.from.lng}`,

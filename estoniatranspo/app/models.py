@@ -33,7 +33,7 @@ class RideOrder(models.Model):
     target_location_lat = models.TextField(default='', blank=True)
     target_location_lng = models.TextField(default='', blank=True)
     roundtrip = models.BooleanField()
-    status = models.CharField(max_length=30, choices=(
+    status = models.CharField(default='New', max_length=30, choices=(
         ('New', 'New'),
         ('Directed', 'Directed')
     ))

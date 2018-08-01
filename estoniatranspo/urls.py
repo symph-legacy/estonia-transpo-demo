@@ -33,7 +33,7 @@ router.register(r'issues', views.IssueViewSet)
 
 urlpatterns = [
     url(r'^api/', include(router.urls)),
-    url(r'^api/ride_orders/latest', views.LatestRideOrderView.as_view()),
+    url(r'^api/ride_order/latest', views.LatestRideOrderView.as_view()),
     url(r'^django/', admin.site.urls),
     url('.*', TemplateView.as_view(template_name='index.html'))
 ]
