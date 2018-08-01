@@ -5,11 +5,9 @@ from django.contrib.auth.models import User, Group
 from models import RideOrder, Issue
 from rest_framework import viewsets
 from estoniatranspo.app.serializers import UserSerializer, GroupSerializer, RideOrderSerializer, IssueSerializer
-
+import json
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
-import simplejson as json
 from django.core import serializers
 from django.http import HttpResponse
 
