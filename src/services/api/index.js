@@ -13,6 +13,19 @@ export const submitOrder = params => {
         .then((res) => res.json());
 }
 
+export const updateOrder = params => {
+    return fetch(
+        `${BASE_URL}api/ride_orders/${params.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+            },
+            body: JSON.stringify(params)
+        })
+        .then((res) => res.json());
+}
+
+
 export const deleteOrder = id => {
     let csrftoken = document.head.querySelector("[name='csrf-token']").content;
     let headers = new Headers();
@@ -33,4 +46,8 @@ export const getAllOrders = () => {
 
 export const getLatestOrder = () => {
     return fetch(`${BASE_URL}api/ride_order/latest`).then((res) => res.json());
+}
+
+export const getOrderById = id => {
+    return fetch(`${BASE_URL}api/ride_orders/${id}`).then((res) => res.json());
 }

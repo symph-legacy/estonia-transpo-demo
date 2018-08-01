@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Alert, Row, Col } from 'reactstrap';
-import { submitOrder } from "../../../services/api";
+import { Row, Col } from 'reactstrap';
+import { submitOrder, updateOrder, getOrderById } from "../../../services/api";
 
 import Icon from 'react-icons-kit';
 import { dotCircleO } from 'react-icons-kit/fa/dotCircleO';
@@ -13,6 +13,7 @@ export default class RideOrder extends Component {
     super(props);
 
     this.state = {
+      id: null,
       name: "",
       payment_option: "Child",
       direction_option: "Roundtrip",
@@ -27,10 +28,41 @@ export default class RideOrder extends Component {
       day_chosen2: "",
       time_chosen: "",
       time_chosen2: "",
-      isButtonLoading: false,
-      showAlert: false
+      isButtonLoading: false
     }
   }
+
+  componentDidMount = () => {
+    if (this.props.match.params.orderId !== 'new') {
+      getOrderById(this.props.match.params.orderId)
+        .then(order => {
+          if(!order.id) return false;
+
+          this.setState({
+            id: order.id,
+            name: order.name,
+            payment_option: order.payment_option,
+            direction_option: order.direction_option,
+            status: order.status,
+            from: {
+              address: order.current_location_name,
+              lat: parseFloat(order.current_location_lat),
+              lng: parseFloat(order.current_location_lng)
+            },
+            target: {
+              address: order.target_location_name,
+              lat: parseFloat(order.target_location_lat),
+              lng: parseFloat(order.target_location_lng)
+            },
+            day_chosen: order.day_chosen,
+            day_chosen2: order.day_chosen2,
+            time_chosen: order.time_chosen,
+            time_chosen2: order.time_chosen2
+          });
+        });
+    }
+  }
+  
 
   onSubmit = () => {
     this.setState({
@@ -55,21 +87,21 @@ export default class RideOrder extends Component {
       "time_chosen2": this.state.time_chosen2
     }
 
+    if(this.state.id) params["id"] = this.state.id;
     if (params['direction_option'] !== "Roundtrip") {
       delete params["day_chosen2"]
       delete params["time_chosen2"]
     }
 
-    submitOrder(params).then(response => {
+    let func = (this.state.id) ? updateOrder: submitOrder;
+    func(params).then(response => {
       this.setState({
         isButtonLoading: !this.state.isButtonLoading
       }, () => {
         if (response.id) {
-          this.setState({
-            showAlert: true
-          })
+          this.props.history.push(`/admin/ride_orders#${(this.state.id) ? 'updated' : 'created'}`);
         } else {
-          alert("Something went wrong...");
+          alert("Something went wrong. Please fill in all fields.");
         }
       });
     });
@@ -78,13 +110,6 @@ export default class RideOrder extends Component {
   render() {
     return (
       <React.Fragment>
-        {
-          (this.state.showAlert) && (<Row>
-            <Col md="6">
-              <Alert color="success">Successfully created new ride.</Alert>
-            </Col>
-          </Row>)
-        }
         <Row>
           <Col md="6">
             <form>
@@ -168,6 +193,7 @@ export default class RideOrder extends Component {
                       type="text"
                       className="form-control"
                       placeholder="Enter date (DD.MM.YYYY)"
+                      value={this.state.day_chosen}
                       onChange={e => this.setState({ day_chosen: e.target.value })} />
                   </div>
 
@@ -177,6 +203,7 @@ export default class RideOrder extends Component {
                       type="text"
                       className="form-control"
                       placeholder="Enter time (HH.mm)"
+                      value={this.state.time_chosen}
                       onChange={e => this.setState({ time_chosen: e.target.value })} />
                   </div>
                 </Col>
@@ -188,6 +215,7 @@ export default class RideOrder extends Component {
                         type="text"
                         className="form-control"
                         placeholder="Enter date (DD.MM.YYYY)"
+                        value={this.state.day_chosen2}
                         onChange={e => this.setState({ day_chosen2: e.target.value })} />
                     </div>
 
@@ -197,6 +225,7 @@ export default class RideOrder extends Component {
                         type="text"
                         className="form-control"
                         placeholder="Enter time (HH.mm)"
+                        value={this.state.time_chosen2}
                         onChange={e => this.setState({ time_chosen2: e.target.value })} />
                     </div>
                   </Col>
@@ -208,7 +237,7 @@ export default class RideOrder extends Component {
                 className="mt20 btn btn-primary"
                 disabled={this.state.isButtonLoading}
                 onClick={this.onSubmit}>
-                {(this.state.isButtonLoading ? 'Submitting...' : 'Submit Ride Order')}
+                {(this.state.isButtonLoading ? 'Saving...' : 'Save Ride Order')}
               </button>
             </form>
           </Col>

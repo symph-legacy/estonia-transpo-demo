@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Table, Row, Col } from 'reactstrap';
+import { Alert, Table, Row, Col } from 'reactstrap';
 
 import { Icon } from 'react-icons-kit';
 import { pencil } from 'react-icons-kit/fa/pencil';
@@ -13,11 +13,27 @@ export default class RideOrders extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      orderList: []
+      orderList: [],
+      showAlert: false,
+      message: ''
     }
   }
 
   componentDidMount() {
+    if(this.props.location.hash === "#updated") {
+      this.setState({
+        message: "Successfully updated ride order.",
+        showAlert: true
+      });
+    }
+
+    if(this.props.location.hash === "#created") {
+      this.setState({
+        message: "Successfully created a new ride order.",
+        showAlert: true
+      });
+    }
+
     getAllOrders().then(orderList => {
       this.setState({ orderList });
     })
@@ -79,6 +95,13 @@ export default class RideOrders extends Component {
 
     return (
       <React.Fragment>
+        {
+          (this.state.showAlert) && (<Row>
+            <Col md="12">
+              <Alert color="success">{this.state.message}</Alert>
+            </Col>
+          </Row>)
+        }
         <div className="d-flex mb-3">
           <div className="p-2">0 items</div>
           <div className="p-2">Sorted by Name</div>
@@ -100,7 +123,7 @@ export default class RideOrders extends Component {
                 </tr>
               </thead>
               <tbody>
-                {this.state.orderList.map(order => <RenderRow order={order} />)}
+                {this.state.orderList.map(order => <RenderRow order={order} key={order.id} />)}
               </tbody>
             </Table>
           </Col>
