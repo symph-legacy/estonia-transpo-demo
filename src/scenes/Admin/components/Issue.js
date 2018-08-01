@@ -7,7 +7,7 @@ export default class Issue extends Component {
     description: '',
     address: '',
     reporter: '',
-    status: 'new',
+    status: 'New',
     submitted: false
   }
   componentDidMount() {
@@ -15,7 +15,6 @@ export default class Issue extends Component {
       fetch(`/api/issues/${this.props.match.params.issueId}`)
       .then(response => response.json())
       .then(issue => {
-        console.log(issue);
         this.setState({
           issueId: issue.id,
           description: issue.description,
@@ -40,7 +39,7 @@ export default class Issue extends Component {
       status: this.state.status
     }
     fetch(`/api/issues/${this.state.issueId}`, {
-      method: this.state.issueId === 'new' ? 'post' : 'put',
+      method: this.state.issueId ? 'put' : 'post',
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
@@ -48,9 +47,11 @@ export default class Issue extends Component {
       body: JSON.stringify(payload)
     })
     .then(response => response.json())
-    .then(data => {
-      console.log(data);
-      this.setState({ submitted: true });
+    .then(issue => {
+      console.log(issue);
+      this.setState({
+        submitted: true
+      })
     });
   }
   render() {
@@ -61,7 +62,7 @@ export default class Issue extends Component {
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label htmlFor="description">Issue</label>
-            <input type="text" className="form-control" id="description" name="description" value={this.state.description} onChange={this.handleChange} placeholder="Enter issue description" />
+            <input type="text" className="form-control" id="description" name="description" value={this.state.description} onChange={this.handleChange} placeholder="Enter issue description" autoFocus />
           </div>
           <div className="form-group">
             <label htmlFor="address">Address</label>

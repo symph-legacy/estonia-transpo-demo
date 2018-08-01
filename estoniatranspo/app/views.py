@@ -32,7 +32,7 @@ class RideOrderViewSet(viewsets.ModelViewSet):
     serializer_class = RideOrderSerializer
 
 class IssueViewSet(viewsets.ModelViewSet):
-    queryset = Issue.objects.all()
+    queryset = Issue.objects.all().order_by('-created')
     serializer_class = IssueSerializer
 
     def pre_save(self, obj):

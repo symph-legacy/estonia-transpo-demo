@@ -32,6 +32,9 @@
 .bg-green {
   background-color: rgb(0, 211, 195);
 }
+button.bg-red {
+  border: 0;
+}
 .bg-red {
   background-color: rgb(248, 97, 116);
 }

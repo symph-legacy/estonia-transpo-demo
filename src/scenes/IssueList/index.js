@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 
 import "./styles.css";
 
@@ -15,7 +15,7 @@ import {
 class IssueList extends Component {
     render() {
         return (
-            <React.Fragment>
+            <Fragment>
                 <Navigation brand={NAV_BRAND} />
                 <Container>
                     <Row>
@@ -24,7 +24,7 @@ class IssueList extends Component {
                         </Col>
                     </Row>
                 </Container>
-            </React.Fragment>
+            </Fragment>
         );
     }
 }

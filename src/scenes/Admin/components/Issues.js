@@ -23,8 +23,16 @@ export default class Issues extends Component {
       this.setState(newState);
     });
   }
-  handleIssue = (id, e) => {
+  handleDeleteIssue = (id, e) => {
     console.log(id);
+    fetch(`/api/issues/${id}`, {
+      method: 'delete'
+    })
+    .then(response => {
+      this.setState({
+        issues: this.state.issues.filter(issue => issue.id !== id)
+      });
+    });
   }
   render() {
     return (
@@ -55,7 +63,7 @@ export default class Issues extends Component {
                         <Icon icon={pencil} />
                       </Link>
                     </div>
-                    <button onClick={(e) => this.deleteIssue(issue.id, e)} className="rounded-circle bg-red p-1 text-white">
+                    <button onClick={(e) => this.handleDeleteIssue(issue.id, e)} className="rounded-circle bg-red p-1 text-white">
                       <Icon icon={trash} />
                     </button>
                   </td>
