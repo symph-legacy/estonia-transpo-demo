@@ -16,10 +16,15 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import TemplateView
-from rest_framework import routers
+from rest_framework.routers import DefaultRouter
 from estoniatranspo.app import views
 
-router = routers.DefaultRouter()
+class OptionalSlashRouter(DefaultRouter):
+    def __init__(self, *args, **kwargs):
+        super(DefaultRouter, self).__init__(*args, **kwargs)
+        self.trailing_slash = '/?'
+
+router = OptionalSlashRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
 router.register(r'ride_orders', views.RideOrderViewSet)

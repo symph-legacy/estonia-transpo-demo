@@ -23,6 +23,9 @@ export default class Issues extends Component {
       this.setState(newState);
     });
   }
+  handleIssue = (id, e) => {
+    console.log(id);
+  }
   render() {
     return (
       <Row>
@@ -48,15 +51,13 @@ export default class Issues extends Component {
                 <tr key={issue.id}>
                   <td className="d-flex">
                     <div className="rounded-circle bg-green p-1 mr-2">
-                      <Link to={`/issues/${issue.id}`} className="text-white">
+                      <Link to={`${this.props.match.url}/${issue.id}`} className="text-white">
                         <Icon icon={pencil} />
                       </Link>
                     </div>
-                    <div className="rounded-circle bg-red p-1">
-                      <Link to={`/issues/${issue.id}`} className="text-white">
-                        <Icon icon={trash} />
-                      </Link>
-                    </div>
+                    <button onClick={(e) => this.deleteIssue(issue.id, e)} className="rounded-circle bg-red p-1 text-white">
+                      <Icon icon={trash} />
+                    </button>
                   </td>
                   <td>{issue.description}</td>
                   <td>{issue.address}</td>

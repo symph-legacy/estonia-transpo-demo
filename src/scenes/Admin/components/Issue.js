@@ -3,11 +3,28 @@ import { Redirect } from 'react-router-dom';
 
 export default class Issue extends Component {
   state = {
+    issueId: '',
     description: '',
     address: '',
     reporter: '',
     status: 'new',
     submitted: false
+  }
+  componentDidMount() {
+    if(this.props.match.params.issueId !== 'new') {
+      fetch(`/api/issues/${this.props.match.params.issueId}`)
+      .then(response => response.json())
+      .then(issue => {
+        console.log(issue);
+        this.setState({
+          issueId: issue.id,
+          description: issue.description,
+          address: issue.address,
+          reporter: issue.reporter,
+          status: issue.status
+        });
+      });
+    }
   }
   handleChange = (e) => {
     let newState = {}
@@ -22,8 +39,8 @@ export default class Issue extends Component {
       reporter: this.state.reporter,
       status: this.state.status
     }
-    fetch('/api/issues/', {
-      method: 'post',
+    fetch(`/api/issues/${this.state.issueId}`, {
+      method: this.state.issueId === 'new' ? 'post' : 'put',
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
@@ -57,8 +74,8 @@ export default class Issue extends Component {
           <div className="form-group">
             <label htmlFor="status">Status</label>
             <select name="status" id="status" className="form-control" value={this.state.status} onChange={this.handleChange}>
-              <option value="new">New</option>
-              <option value="in_progress">In Progress</option>
+              <option value="New">New</option>
+              <option value="In Progress">In Progress</option>
             </select>
           </div>
           <button type="submit" className="btn btn-primary">Submit Issue</button>

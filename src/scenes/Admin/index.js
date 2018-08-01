@@ -69,7 +69,7 @@ class Admin extends Component {
               <Route exact path={`${this.props.match.url}/ride_orders`} component={RideOrders} />
               <Route exact path={`${this.props.match.url}/issues`} component={Issues} />
               <Route path={`${this.props.match.url}/ride_orders/:orderId`} component={RideOrder} />
-              <Route path={`${this.props.match.url}/issues/:orderId`} component={Issue} />
+              <Route path={`${this.props.match.url}/issues/:issueId`} component={Issue} />
             </Col>
           </Row>
         </Container>

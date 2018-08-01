@@ -7,18 +7,18 @@ from django.db import models
 class RideOrder(models.Model):
     name = models.CharField(max_length=50)
     payment_option = models.CharField(max_length=30, choices=(
-            ('CHILD', 'Child'),
-            ('SUBSIDISED', 'Subsidised'),
-            ('REGULAR', 'Regular'),
+            ('Child', 'Child'),
+            ('Subsidised', 'Subsidised'),
+            ('Regular', 'Regular'),
         ),
-        default='CHILD',
+        default='Child',
         blank=True
     )
     direction_option = models.CharField(max_length=30, choices=(
-            ('ROUNDTRIP', 'Roundtrip'),
-            ('ONEWAY', 'Oneway')
+            ('Roundtrip', 'Roundtrip'),
+            ('Oneway', 'Oneway')
         ),
-        default='ROUNDTRIP',
+        default='Roundtrip',
         blank=True
     )
 
@@ -34,8 +34,8 @@ class RideOrder(models.Model):
     target_location_lng = models.TextField(default='', blank=True)
     roundtrip = models.BooleanField()
     status = models.CharField(max_length=30, choices=(
-        ('new', 'New'),
-        ('directed', 'Directed')
+        ('New', 'New'),
+        ('Directed', 'Directed')
     ))
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -46,8 +46,8 @@ class Issue(models.Model):
     address = models.TextField()
     reporter = models.CharField(max_length=30)
     status = models.CharField(max_length=30, choices=(
-        ('new', 'New'),
-        ('in_progress', 'In Progress')
+        ('New', 'New'),
+        ('In Progress', 'In Progress')
     ))
     attachments = models.FileField(blank=True, default='', upload_to='uploads/')
     created = models.DateTimeField(auto_now_add=True)
