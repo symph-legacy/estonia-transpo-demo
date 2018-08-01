@@ -342,7 +342,7 @@ class Order extends Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col>
+                    <Col className="mb20">
                         <iframe
                             className="es-map embedded"
                             title="preview-map"
@@ -350,7 +350,7 @@ class Order extends Component {
                     </Col>
                 </Row>
                 <Row>
-                    <Col md="6">
+                    <Col className="mb20" md="6">
                         <Card>
                             <CardBody>
                                 <Row>
@@ -426,7 +426,7 @@ class Order extends Component {
                     </Col>
                     {
                         (this.props.selectedDirection === "Roundtrip") && (
-                            <Col>
+                            <Col className="mb20">
                                 <Card>
                                     <CardBody>
                                         <Row>
