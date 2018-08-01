@@ -26,3 +26,10 @@ class IssueSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Issue
         fields = ('id', 'description', 'address', 'reporter', 'created', 'updated', 'status', 'attachments')
+
+# class LatestRideOrderSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = RideOrder
+#         fields = [
+#             'name'
+#         ]

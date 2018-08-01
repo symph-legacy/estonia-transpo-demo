@@ -186,3 +186,50 @@
 .es-confirmation-box .btn {
     min-width: 200px;
 }
+
+.es-previous-location {
+    position: absolute;
+    right: 49px;
+    bottom: 23px;
+    width: 300px;
+    padding-left: 20px;
+    background-color: #92E62F;
+    border-color: #92E62F;
+    border-radius: 0px;
+    color: #fff;
+    align-items: center;
+}
+
+.es-previous-location:hover {
+    background-color: #8ee22c;
+    border-color: #8ee22c;
+}
+
+.es-previous-location .btn {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    color: #fff;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 93%;
+}
+
+.es-check {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+
+.es-close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: #64982C;
+}
+
+.es-close:hover {
+    color: #4a7916;
+    cursor: pointer;
+}

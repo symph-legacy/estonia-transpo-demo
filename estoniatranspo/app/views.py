@@ -6,6 +6,12 @@ from models import RideOrder, Issue
 from rest_framework import viewsets
 from estoniatranspo.app.serializers import UserSerializer, GroupSerializer, RideOrderSerializer, IssueSerializer
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+import simplejson as json
+from django.core import serializers
+from django.http import HttpResponse
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -31,3 +37,28 @@ class IssueViewSet(viewsets.ModelViewSet):
 
     def pre_save(self, obj):
         obj.attachments = self.request.FILES.get('file')
+
+
+class LatestRideOrderView(APIView):
+    def get(self, request, format=None):
+        try:
+            obj = RideOrder.objects.latest("id")
+        except Exception, e:
+            obj = None
+            print(e)
+
+        data = {}
+        if not obj:
+            return Response(data)
+
+        latest = serializers.serialize('json', [obj,])
+        if not latest:
+            return Response(data)
+
+        try:
+            data = json.loads(latest)[0]
+        except Exception, e:
+            data = {}
+            print(e)
+        
+        return Response(data)

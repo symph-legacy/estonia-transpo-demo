@@ -8,6 +8,8 @@ import Icon from 'react-icons-kit';
 import { dotCircleO } from 'react-icons-kit/fa/dotCircleO';
 import { mapMarker } from 'react-icons-kit/fa/mapMarker';
 import { check } from 'react-icons-kit/fa/check';
+import { checkCircle } from 'react-icons-kit/fa/checkCircle';
+import { times } from 'react-icons-kit/fa/times';
 
 import { NAV_BRAND, BUTTON_GROUP } from "./strings";
 
@@ -16,8 +18,9 @@ import Navigation from "../../components/Navigation";
 import CurrentLocation from "./components/CurrentLocation";
 import TargetLocation from "./components/TargetLocation";
 
-import { isEmptyObject, toProperCase } from "../../services/helpers";
+import { submitOrder, getLatestOrder } from "../../services/api";
 import { getAddressByLatLng } from '../../services/geocode'
+import { isEmptyObject, toProperCase } from "../../services/helpers";
 
 import DatePicker from 'react-datepicker';
 
@@ -49,7 +52,6 @@ import {
 } from "reactstrap";
 
 import "./styles.css";
-import { submitOrder } from "../../services/api";
 
 const GOOGLE_API_KEY = 'AIzaSyDbESyZ10IaxgVmjcMBDN2WlGzSEu9vzMM';
 
@@ -70,6 +72,8 @@ class Order extends Component {
             isTimePickerOpen1: false,
             isTimePickerOpen2: false,
             isButtonLoading: false,
+            latest: {},
+            showLatest: true,
             distance: ""
         };
     }
@@ -95,6 +99,20 @@ class Order extends Component {
                 });
             });
         }
+
+        getLatestOrder().then((latest) => {
+            if(!isEmptyObject(latest)) {
+                this.setState({
+                    latest: {
+                        lat: parseFloat(latest.fields.target_location_lat),
+                        lng: parseFloat(latest.fields.target_location_lng),
+                        address: latest.fields.target_location_name
+                    }
+                });
+            } else {
+                console.log("Latest order not found.");
+            }
+        });
     }
 
 
@@ -102,36 +120,35 @@ class Order extends Component {
         this.props.togglePayment(e.target.value);
     }
 
-    renderRoute = () => {
+    renderRoute = (defaultTarget = null) => {
         if(!this.state.mapLoaded) return false;
 
         if (this.state.directionsDisplay != null) {
             this.state.directionsDisplay.setDirections({ routes: [] });
         }
 
-        if (this.props.from &&
-            this.props.from.lat &&
-            this.props.from.lat &&
-            this.props.target &&
-            this.props.target.lat &&
-            this.props.target.lng ) {
-
-            this.state.directionsService.route({
-                origin: `${this.props.from.lat}, ${this.props.from.lng}`,
-                destination: `${this.props.target.lat}, ${this.props.target.lng}`,
-                waypoints: [],
-                optimizeWaypoints: true,
-                travelMode: 'DRIVING'
-            }, (response, status) => {
-                this.state.directionsDisplay.setDirections(response);
-                if(response.routes.length){
-                    this.setState({
-                        distance: response.routes[0].legs[0].distance.text,
-                        time: response.routes[0].legs[0].duration.text,
-                    });
-                }
-            });
+        let { from, target } = this.props;
+        if (defaultTarget) target = Object.assign({}, defaultTarget);
+        if ((isEmptyObject(from) || isEmptyObject(target))) {
+            console.log("Can't render router, missing origin or destination.");
+            return false;
         }
+
+        this.state.directionsService.route({
+            origin: `${from.lat}, ${from.lng}`,
+            destination: `${target.lat}, ${target.lng}`,
+            waypoints: [],
+            optimizeWaypoints: true,
+            travelMode: 'DRIVING'
+        }, (response, status) => {
+            this.state.directionsDisplay.setDirections(response);
+            if(response.routes.length){
+                this.setState({
+                    distance: response.routes[0].legs[0].distance.text,
+                    time: response.routes[0].legs[0].duration.text,
+                });
+            }
+        });
     }
 
     renderPaymentButton = () => {
@@ -191,6 +208,16 @@ class Order extends Component {
     toggleTimepicker2 = e => {
         e && e.preventDefault()
         this.setState({ isTimePickerOpen2: !this.state.isTimePickerOpen2 })
+    }
+
+    onPreviousLocationClicked = () => {
+        this.props.changeTargetLocation(this.state.latest);
+        this.renderRoute(this.state.latest);
+        this.toggleLatest();
+    }
+
+    toggleLatest = () => {
+        this.setState({ showLatest: !this.state.showLatest })
     }
 
     renderStepOne = () => {
@@ -254,6 +281,20 @@ class Order extends Component {
                         </FormGroup>
                     </div>
 
+                    <div>
+                        {
+                            (!isEmptyObject(this.state.latest) && this.state.showLatest) && (
+                                <div className="es-previous-location">
+                                    <button className='btn' onClick={this.onPreviousLocationClicked}>
+                                        <Icon icon={checkCircle} className="es-check" />
+                                        {this.state.latest.address}
+                                    </button>
+                                    <Icon icon={times} className="es-close" onClick={this.toggleLatest} />
+                                </div>
+                            )
+                        }
+                    </div>
+
                     <div className="text-center p15">
                         <span> {this.state.time} </span> - <span>{this.state.distance}</span>
                     </div>
@@ -291,13 +332,13 @@ class Order extends Component {
                     </Col>
                     <Col sm="12" md="4" className="d-flex es-btn-group">
                         <button
-                            className={`btn btn-block btn-outline-secondary m-1 ${(selectedDirection === "ROUNDTRIP" ? "active" : "")}`}
+                            className={`btn btn-block btn-outline-secondary m-1 ${(selectedDirection === "Roundtrip" ? "active" : "")}`}
                             onClick={ (e) => this.props.toggleDirection(e.target.value) }
-                            value="ROUNDTRIP">Roundtrip</button>
+                            value="Roundtrip">Roundtrip</button>
                         <button
-                            className={`btn btn-block btn-outline-secondary m-1 ${(selectedDirection === "ONEWAY" ? "active" : "")}`}
+                            className={`btn btn-block btn-outline-secondary m-1 ${(selectedDirection === "Oneway" ? "active" : "")}`}
                             onClick={(e) => this.props.toggleDirection(e.target.value)}
-                            value="ONEWAY">Oneway</button>
+                            value="Oneway">Oneway</button>
                     </Col>
                 </Row>
                 <Row>
@@ -384,7 +425,7 @@ class Order extends Component {
                         </Card>
                     </Col>
                     {
-                        (this.props.selectedDirection === "ROUNDTRIP") && (
+                        (this.props.selectedDirection === "Roundtrip") && (
                             <Col>
                                 <Card>
                                     <CardBody>
@@ -466,13 +507,20 @@ class Order extends Component {
                     <Col className="text-center p15">
                         <Button
                             color="primary"
+                            disabled={this.state.isButtonLoading ||
+                                (!(this.props.chosenDay1 && this.props.chosenTime1)) ||
+                                (!(this.props.chosenDay2 && this.props.chosenTime2) &&
+                                this.props.selectedDirection === "Roundtrip")}
                             onClick={() => {
+                                this.setState({
+                                    isButtonLoading: !this.state.isButtonLoading
+                                });
+
                                 let params = {
                                     "name": "Kersti Kangro",
                                     "roundtrip": false,
                                     "payment_option": this.props.selectedOption,
                                     "direction_option": this.props.selectedDirection,
-                                    "status": "new",
                                     "current_location_name": this.props.from.address,
                                     "current_location_lat": `${this.props.from.lat}`,
                                     "current_location_lng": `${this.props.from.lng}`,
@@ -485,7 +533,7 @@ class Order extends Component {
                                     "time_chosen2": this.props.chosenTime2
                                 }
                     
-                                if(params['direction_option'] !== "ROUNDTRIP") {
+                                if (params['direction_option'] !== "Roundtrip") {
                                     delete params["day_chosen2"]
                                     delete params["time_chosen2"]
                                 }
@@ -524,7 +572,7 @@ class Order extends Component {
                         <p>Confirmation will arrive to your mail</p>
                     </Col>
                     <Col sm="12" className="mb20">
-                        <a className="btn btn-outline-primary btn-120" href="/">OK</a>
+                        <a className="btn btn-outline-primary btn-120" href="/order">OK</a>
                     </Col>
                 </Row>
             </Container>

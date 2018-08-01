@@ -2,15 +2,15 @@ export const NAV_BRAND = "Order"
 export const BUTTON_GROUP = [
     {
         "text": "Child",
-        "key": "CHILD",
+        "key": "Child",
     },
     {
         "text": "Subsidised",
-        "key": "SUBSIDISED"
+        "key": "Subsidised"
     },
     {
         "text": "Regular",
-        "key": "REGULAR"
+        "key": "Regular"
     },
 ]
 

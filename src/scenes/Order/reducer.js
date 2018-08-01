@@ -12,8 +12,8 @@ import {
 } from "./strings";
 
 const initialState = {
-    selectedPaymentOption: "CHILD",
-    selectedDirection: "ROUNDTRIP",
+    selectedPaymentOption: "Child",
+    selectedDirection: "Roundtrip",
     center: {
         lat: 58.5953,
         lng: 25.0136

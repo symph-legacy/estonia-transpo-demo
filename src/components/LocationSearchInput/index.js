@@ -21,8 +21,8 @@ class LocationSearchInput extends React.Component {
         super(props);
 
         this.state = {
-            address: this.props.defaultAddress,
-            done: this.props.defaultAddress,
+            defaultAddress: props.defaultAddress,
+            address: props.defaultAddress,
             errorMessage: '',
             latitude: null,
             longitude: null,
@@ -34,19 +34,14 @@ class LocationSearchInput extends React.Component {
     componentDidMount() {
         if(!isEmptyObject(this.props.from) && !isEmptyObject(this.props.target)) {
             this.props.renderRoute();
-            this.setState({
-                done: false
-            });
         }
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.defaultAddress !== prevState.address
-            && prevState.done
-            && nextProps.defaultAddress) {
+    static getDerivedStateFromProps(props, state) {
+        if (props.defaultAddress !== state.defaultAddress) {
             return ({
-                address: nextProps.defaultAddress,
-                done: false
+                address: props.defaultAddress,
+                defaultAddress: props.defaultAddress
             });
         }
 

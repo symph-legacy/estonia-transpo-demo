@@ -30,3 +30,7 @@ export const deleteOrder = id => {
 export const getAllOrders = () => {
     return fetch(`${BASE_URL}api/ride_orders/`).then((res) => res.json());
 }
+
+export const getLatestOrder = () => {
+    return fetch(`${BASE_URL}api/ride_order/latest`).then((res) => res.json());
+}
