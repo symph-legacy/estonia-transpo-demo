@@ -8,6 +8,7 @@ export default class Issue extends Component {
     address: '',
     reporter: '',
     status: 'New',
+    image: '',
     submitted: false
   }
   componentDidMount() {
@@ -20,7 +21,8 @@ export default class Issue extends Component {
           description: issue.description,
           address: issue.address,
           reporter: issue.reporter,
-          status: issue.status
+          status: issue.status,
+          image: issue.attachments
         });
       });
     }
@@ -79,6 +81,16 @@ export default class Issue extends Component {
               <option value="In Progress">In Progress</option>
             </select>
           </div>
+          {this.state.issueId && (
+            <div className="form-group">
+              <label htmlFor="status">Attachment</label>
+              <div>
+                <a href={this.state.image}>
+                  <img className="w-25" alt="Attachment" src={this.state.image} />
+                </a>
+              </div>
+            </div>
+          )}
           <button type="submit" className="btn btn-primary">Submit Issue</button>
         </form>
       );

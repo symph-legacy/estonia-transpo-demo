@@ -29,7 +29,7 @@ export default class Card extends Component {
     .then(response => response.json())
     .then(issue => {
       console.log(issue);
-      this.props.closeNewIssueForm();
+      this.props.addIssueToState(issue);
     });
   }
   selectFile = e => {
@@ -86,7 +86,7 @@ export default class Card extends Component {
         <div className="attachments mt-3 p-3">
           <img src={this.props.issue.attachments} alt="Attachment" className="rounded-circle mx-3"/>
           <a href={this.props.issue.attachments}>
-            <span>{filename}</span>
+            <div className="d-inline-block truncate">{filename}</div>
           </a>
         </div>
       </div>

@@ -20,6 +20,13 @@ export default class Issue extends Component {
       });
     });
   }
+  addIssueToState = issue => {
+    console.log(issue);
+    this.setState({
+      newIssue: false,
+      issues: [issue, ...this.state.issues]
+    });
+  }
   openNewIssueForm = (e) => {
     this.setState({
       newIssue: true
@@ -41,7 +48,7 @@ export default class Issue extends Component {
           ))}
           {
             this.state.newIssue
-            ? <Card editable closeNewIssueForm={this.closeNewIssueForm} />
+            ? <Card editable closeNewIssueForm={this.closeNewIssueForm} addIssueToState={this.addIssueToState} />
             : (
               <div className="attachments mt-3 p-3">
                 <button className="rounded-circle mx-3 attachment-plus text-white" onClick={this.openNewIssueForm}>+</button>
