@@ -1,0 +1,19 @@
+.issues-list .attachments {
+  background-color: rgb(242, 242, 242);
+}
+.issues-list .attachment-plus {
+  border: 0;
+  background-color: rgb(186, 186, 186);
+  width: 30px;
+  height: 30px;
+  font-size: 1rem;
+  line-height: 0;
+}
+.issues-list .issue input[type="text"] {
+  border: 0;
+  width: 100%;
+}
+.issues-list .issue {
+  background: #fff;
+  border: 1px solid rgb(228, 228, 228);
+}
