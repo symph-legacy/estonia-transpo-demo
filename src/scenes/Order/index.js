@@ -97,6 +97,9 @@ class Order extends Component {
                         });
                     }
                 });
+            }, err => {
+                console.log("Can't get current location.");
+                console.log(err);
             });
         }
 
