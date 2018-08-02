@@ -55,7 +55,6 @@ export default class Card extends Component {
     if(this.props.issue && this.props.issue.attachments) {
       filename = this.props.issue.attachments.split(/[\s/]+/);
       filename = filename[filename.length-1];
-      console.log(filename);
     }
     return this.props.editable ? (
       <form className="clearfix" onSubmit={this.submit}>
