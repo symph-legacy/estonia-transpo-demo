@@ -40,8 +40,26 @@ export const deleteOrder = id => {
         });
 }
 
+export const deleteIssue = id => {
+    let csrftoken = document.head.querySelector("[name='csrf-token']").content;
+    let headers = new Headers();
+    headers.append('X-CSRFToken', csrftoken);
+    headers.append('Content-Type', "application/x-www-form-urlencoded");
+
+    return fetch(
+        `${BASE_URL}api/issues/${id}/`, {
+            method: "DELETE",
+            headers: headers,
+            credentials: 'include'
+        });
+}
+
 export const getAllOrders = () => {
     return fetch(`${BASE_URL}api/ride_orders/`).then((res) => res.json());
+}
+
+export const getAllIssues = () => {
+    return fetch(`${BASE_URL}api/issues/`).then((res) => res.json());
 }
 
 export const getLatestOrder = () => {
