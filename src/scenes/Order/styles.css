@@ -71,6 +71,7 @@
 @media (max-width: 768px) {
     .es-destination-wrapper {
         width: 70%;
+        bottom: 50px;
     }
 }
 
@@ -154,6 +155,12 @@
     min-width: 150px;
 }
 
+@media (max-width: 425px) {
+    .es-btn-picker {
+        min-width: 120px;
+    }
+}
+
 .react-datepicker__time-container {
     width: 100px;
 }
@@ -203,6 +210,22 @@
 .es-previous-location:hover {
     background-color: #8ee22c;
     border-color: #8ee22c;
+}
+
+@media (max-width: 768px) {
+    .es-previous-location {
+        left: 20px;
+        right: auto;
+        width: 270px;
+    }
+}
+
+@media (max-width: 425px) {
+    .es-previous-location {
+        bottom: 0px;
+        left: 0px;
+        width: 100%;
+    }
 }
 
 .es-previous-location .btn {
