@@ -41,7 +41,7 @@ class IssueList extends Component {
             <td>{ toProperCase(props.issue.reporter) }</td>
             <td>{props.issue.description}</td>
             <td>{props.issue.address}</td>
-            <td><img alt='attachment' src={props.issue.attachments} /></td>
+            <td><img className='es-img-thumb' alt='attachment' src={props.issue.attachments} /></td>
             <td>{props.issue.status}</td>
             <td>
                 <button
