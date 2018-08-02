@@ -1,6 +1,10 @@
 .issues-list .attachments {
   background-color: rgb(242, 242, 242);
 }
+.issues-list .attachments .rounded-circle.mx-3 {
+  width: 30px;
+  height: 30px;
+}
 .issues-list .attachment-plus {
   border: 0;
   background-color: rgb(186, 186, 186);
