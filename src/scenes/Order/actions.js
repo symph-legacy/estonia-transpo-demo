@@ -9,6 +9,7 @@ import {
     CHANGE_DAY2,
     CHANGE_TIME1,
     CHANGE_TIME2,
+    TOGGLE_MAP_CLICK
  } from "./strings";
 
 
@@ -79,5 +80,12 @@ export const changeTime2 = (time) => dispatch => {
     dispatch({
         type: CHANGE_TIME2,
         payload: time
+    });
+}
+
+export const toggleMapClick = (which) => dispatch => {
+    dispatch({
+        type: TOGGLE_MAP_CLICK,
+        payload: which
     });
 }

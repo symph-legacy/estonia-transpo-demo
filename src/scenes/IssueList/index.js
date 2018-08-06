@@ -36,13 +36,13 @@ class IssueList extends Component {
 
     renderRow = props => (
         <tr>
-            <td>{props.issue.id}</td>
-            <td>{ moment(props.issue.created).format("lll") }</td>
-            <td>{ toProperCase(props.issue.reporter) }</td>
-            <td>{props.issue.description}</td>
-            <td>{props.issue.address}</td>
-            <td><img alt='attachment' src={props.issue.attachments} /></td>
-            <td>{props.issue.status}</td>
+            <td data-xs-label="ID #">{props.issue.id}</td>
+            <td data-xs-label="Date Submitted">{ moment(props.issue.created).format("lll") }</td>
+            <td data-xs-label="Reporter">{ toProperCase(props.issue.reporter) }</td>
+            <td data-xs-label="Description">{props.issue.description}</td>
+            <td data-xs-label="Address">{props.issue.address}</td>
+            <td data-xs-label="Attachments"><img className='es-img-thumb' alt='attachment' src={props.issue.attachments} /></td>
+            <td data-xs-label="Status">{props.issue.status}</td>
             <td>
                 <button
                     value
@@ -75,7 +75,7 @@ class IssueList extends Component {
                     </Row>
                     <Row>
                         <Col>
-                            <Table className="es-table mt20" responsive bordered>
+                            <Table className="es-table mt20 es-table-responsive" responsive bordered>
                                 <thead>
                                     <tr>
                                         <th>#</th>

@@ -67,6 +67,11 @@
     left: 10px;
 }
 
+.__react_component_tooltip {
+    width: 250px;
+    text-align: center;
+}
+
 
 @media (max-width: 768px) {
     .es-destination-wrapper {
@@ -255,4 +260,10 @@
 .es-close:hover {
     color: #4a7916;
     cursor: pointer;
+}
+
+.input-group-text.active {
+    background-color: #666;
+    border-color: #666;
+    color: #fff;
 }
