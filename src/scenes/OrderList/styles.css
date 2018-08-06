@@ -12,3 +12,43 @@
     padding: 15px !important;
     max-width: 200px;
 }
+
+
+@media (max-width: 768px) {
+    .es-table-responsive {
+       display: flex;
+       flex-direction: column;
+    }
+    .es-table-responsive thead {
+        display: none;
+    }
+
+    .es-table-responsive tr {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #dee2e6;
+        margin-bottom: 15px;
+        padding: 15px;
+    }
+
+    .es-table-responsive.table tbody tr td {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        max-width: unset;
+        border: 0px;
+        flex: 1;
+        padding: 5px !important;
+        margin-bottom: 5px;
+    }
+    
+    .es-table-responsive.table tbody tr td .btn {
+        max-width: 250px;
+    }
+
+    .es-table-responsive.table tbody tr td:before {
+        content: attr(data-xs-label);
+        font-weight: 600;
+        color: #323232;
+    }
+}

@@ -8,7 +8,8 @@ import {
     CHANGE_DAY1,
     CHANGE_DAY2,
     CHANGE_TIME1,
-    CHANGE_TIME2
+    CHANGE_TIME2,
+    TOGGLE_MAP_CLICK
 } from "./strings";
 
 const initialState = {
@@ -39,7 +40,7 @@ const initialState = {
     chosenDay2: "",
     chosenTime1: "",
     chosenTime2: "",
-
+    chosenLocationInput: "FROM"
 }
 
 export default function (state = initialState, action) {
@@ -93,6 +94,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 chosenTime2: action.payload
+            }
+        case TOGGLE_MAP_CLICK:
+            return {
+                ...state,
+                chosenLocationInput: action.payload
             }
         default:
             return state;

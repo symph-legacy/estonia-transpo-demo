@@ -35,22 +35,22 @@ class OrderList extends Component {
 
     renderRow = props => (
         <tr>
-            <td>
+            <td data-xs-label="ID #">
                 {props.order.id}
             </td>
-            <td>
+            <td data-xs-label="From">
                 <a href={`https://www.google.com/maps/?q=${props.order.current_location_name}`}
                     target="_blank">
                     {props.order.current_location_name}
                 </a>
             </td>
-            <td>
+            <td data-xs-label="To">
                 <a href={`https://www.google.com/maps/?q=${props.order.target_location_name}`}
                     target="_blank">
                     {props.order.target_location_name}
                 </a>
             </td>
-            <td>
+            <td data-xs-label="Date & Time">
                 <p className='mb0'>{props.order.day_chosen}</p>
                 <p className='mb0'>{props.order.time_chosen}</p>
 
@@ -62,9 +62,9 @@ class OrderList extends Component {
                     </React.Fragment>
                 )}
             </td>
-            <td>{ toProperCase(props.order.payment_option) || '-' }</td>
-            <td>{ toProperCase(props.order.direction_option) || '-' }</td>
-            <td>{ toProperCase(props.order.status) }</td>
+            <td data-xs-label="Payment Option">{ toProperCase(props.order.payment_option) || '-' }</td>
+            <td data-xs-label="Ride Type">{ toProperCase(props.order.direction_option) || '-' }</td>
+            <td data-xs-label="Status">{ toProperCase(props.order.status) }</td>
             <td>
                 <button
                     value
@@ -97,7 +97,7 @@ class OrderList extends Component {
                     </Row>
                     <Row>
                         <Col>
-                            <Table className="es-table mt20" responsive bordered>
+                            <Table className="es-table mt20 es-table-responsive" responsive bordered>
                                 <thead>
                                     <tr>
                                         <th>#</th>

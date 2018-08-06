@@ -108,8 +108,10 @@ class LocationSearchInput extends React.Component {
                         return (
                             <div>
                                 <InputGroup>
-                                    <InputGroupAddon addonType="prepend">
-                                        <span className="input-group-text">
+                                    <InputGroupAddon
+                                        addonType="prepend">
+                                        <span
+                                            className={`input-group-text ${this.props.activeClick ? 'active': '' }`}>
                                             <DynamicIcon />
                                         </span>
                                     </InputGroupAddon>
@@ -117,6 +119,7 @@ class LocationSearchInput extends React.Component {
                                         {...getInputProps({
                                             placeholder,
                                             className: 'form-control Demo__search-input',
+                                            onFocus: this.props.onFocus
                                         })}
                                     />
                                     <InputGroupAddon addonType="prepend">

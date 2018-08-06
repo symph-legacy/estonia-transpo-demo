@@ -22,6 +22,7 @@ import { submitOrder, getLatestOrder } from "../../services/api";
 import { getAddressByLatLng } from '../../services/geocode'
 import { isEmptyObject, toProperCase } from "../../services/helpers";
 
+import ReactTooltip from 'react-tooltip';
 import DatePicker from 'react-datepicker';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -36,7 +37,8 @@ import {
     changeDay1,
     changeDay2,
     changeTime1,
-    changeTime2
+    changeTime2,
+    toggleMapClick
 } from "./actions"
 
 
@@ -116,6 +118,10 @@ class Order extends Component {
                 console.log("Latest order not found.");
             }
         });
+        
+        setTimeout(() => {
+            this.renderRoute();
+        }, 1000);
     }
 
 
@@ -202,7 +208,6 @@ class Order extends Component {
         this.setState({ isDatePickerOpen2: !this.state.isDatePickerOpen2 })
     }
 
-
     toggleTimepicker1 = e => {
         e && e.preventDefault()
         this.setState({ isTimePickerOpen1: !this.state.isTimePickerOpen1 })
@@ -221,6 +226,63 @@ class Order extends Component {
 
     toggleLatest = () => {
         this.setState({ showLatest: !this.state.showLatest })
+    }
+
+    onMapClick = ({ x, y, lat, lng, event }) => {
+        let func = null;
+        switch (this.props.chosenLocationInput) {
+            case "FROM":
+                func = this.props.changeCurrentLocation;
+                break;
+            case "TARGET":
+                func = this.props.changeTargetLocation;
+                break;
+            default:
+                break;
+        }
+
+        if(func) {
+            func({ lat, lng, address: "Processing address..."});
+            getAddressByLatLng({ lat, lng }).then(response => {
+                let places = response.results;
+                if (places && places.length) {
+                    this.props.changeMapCenter({ lat, lng });
+                    func({
+                        lat,
+                        lng,
+                        address: places[0].formatted_address
+                    });
+
+                    this.renderRoute();
+                }
+            });
+        }
+    }
+
+    onToggleMapClick = ( e ) => {
+        e.preventDefault();
+        if(e.target.value) {
+            this.props.toggleMapClick(e.target.value);
+        }
+    }
+
+    onFocus = (e) => {
+        switch (e.target.placeholder) {
+            case "From location":
+                this.props.toggleMapClick("FROM");
+                break;
+            case "Target location":
+                this.props.toggleMapClick("TARGET");
+                break;
+        
+            default:
+                break;
+        }
+        console.log(e.target.placeholder);
+    }
+
+    onBlur = (e) => {
+        console.log(e.target.placeholder);
     }
 
     renderStepOne = () => {
@@ -243,6 +305,10 @@ class Order extends Component {
                                     map,
                                     suppressMarkers: true
                                 })
+                            });
+
+                            map.addListener('click', event => {
+                                this.onMapClick({ 'x': event.pixel.x, 'y': event.pixel.y, 'lat': event.latLng.lat(), 'lng': event.latLng.lng() });
                             });
                         }}
                         yesIWantToUseGoogleMapApiInternals={true}
@@ -268,7 +334,11 @@ class Order extends Component {
                     <div className="es-destination-wrapper">
                         <FormGroup className="es-destination">
                             <LocationSearchInput
+                                tip="Click this to activate selecting current location by clicking the map."
                                 placeholder="From location"
+                                onFocus={this.onFocus}
+                                onBlur={this.onBlur}
+                                activeClick={this.props.chosenLocationInput === "FROM" }
                                 defaultAddress={this.props.from.address}
                                 renderRoute={this.renderRoute}
                                 propsDispatch={this.props.changeCurrentLocation}
@@ -276,7 +346,11 @@ class Order extends Component {
                         </FormGroup>
                         <FormGroup className="es-destination">
                             <LocationSearchInput
+                                tip="Click this to activate selecting target location by clicking the map."
                                 placeholder="Target location"
+                                onFocus={this.onFocus}
+                                onBlur={this.onBlur}
+                                activeClick={this.props.chosenLocationInput === "TARGET" }
                                 defaultAddress={(!isEmptyObject(this.props.target)) ? this.props.target.address : ""}
                                 renderRoute={this.renderRoute}
                                 propsDispatch={this.props.changeTargetLocation}
@@ -585,6 +659,7 @@ class Order extends Component {
     render() {
         return (
             <React.Fragment>
+                <ReactTooltip />
                 <Navigation brand={NAV_BRAND} />
                 { (this.props.step === 1) && this.renderStepOne() }
                 { (this.props.step === 2) && this.renderStepTwo() }
@@ -600,6 +675,7 @@ Order.propTypes = {
     selectedDirection: PropTypes.string.isRequired,
     togglePayment: PropTypes.func.isRequired,
     toggleDirection: PropTypes.func.isRequired,
+    toggleMapClick: PropTypes.func.isRequired,
     changeTargetLocation: PropTypes.func.isRequired,
     changeCurrentLocation: PropTypes.func.isRequired,
     changeMapCenter: PropTypes.func.isRequired,
@@ -623,6 +699,7 @@ Order.propTypes = {
         address: PropTypes.string
     }),
     step: PropTypes.number.isRequired,
+    chosenLocationInput: PropTypes.string.isRequired,
     chosenDay1: PropTypes.string.isRequired,
     chosenDay2: PropTypes.string.isRequired,
     chosenTime1: PropTypes.string.isRequired,
@@ -639,12 +716,14 @@ const mapStateToProps = state => ({
     chosenDay1: state.order.chosenDay1,
     chosenDay2: state.order.chosenDay2,
     chosenTime1: state.order.chosenTime1,
-    chosenTime2: state.order.chosenTime2
+    chosenTime2: state.order.chosenTime2,
+    chosenLocationInput: state.order.chosenLocationInput
 });
 
 export default connect(mapStateToProps, {
     togglePayment,
     toggleDirection,
+    toggleMapClick,
     nextStep,
     changeTargetLocation,
     changeCurrentLocation,
