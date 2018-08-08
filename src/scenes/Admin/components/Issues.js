@@ -5,6 +5,8 @@ import { Icon } from 'react-icons-kit';
 import { pencil } from 'react-icons-kit/fa/pencil';
 import { trash } from 'react-icons-kit/fa/trash';
 
+import strings from "../../../localisation";
+
 export default class Issues extends Component {
   state = {
     issues: []
@@ -39,19 +41,19 @@ export default class Issues extends Component {
       <Row>
         <Col>
           <div className="d-flex mb-3">
-            <div className="p-2">{this.state.issues.length} items &bull; Sorted by Name</div>
+            <div className="p-2">{this.state.issues.length} {strings.items} &bull; {strings.sortedByName}</div>
             <div className="ml-auto p-2">
-              <NavLink to={`${this.props.match.url}/new`} className="button-primary">New Issue</NavLink>
+              <NavLink to={`${this.props.match.url}/new`} className="button-primary">{strings.newIssue}</NavLink>
             </div>
           </div>
           <Table borderless>
             <thead className="bg-white border-top border-bottom text-uppercase">
               <tr>
                 <th></th>
-                <th>Issue</th>
-                <th>Address</th>
-                <th>Reporter</th>
-                <th>Status</th>
+                <th>{strings.issue}</th>
+                <th>{strings.address}</th>
+                <th>{strings.reporter}</th>
+                <th>{strings.status}</th>
               </tr>
             </thead>
             <tbody>

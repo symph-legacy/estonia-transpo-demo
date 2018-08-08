@@ -1,15 +1,17 @@
-export const NAV_BRAND = "Order"
+import strings from "../../localisation";
+
+export const NAV_BRAND = strings.order
 export const BUTTON_GROUP = [
     {
-        "text": "Child",
+        "text": strings.child,
         "key": "Child",
     },
     {
-        "text": "Subsidised",
+        "text": strings.subsidised,
         "key": "Subsidised"
     },
     {
-        "text": "Regular",
+        "text": strings.regular,
         "key": "Regular"
     },
 ]

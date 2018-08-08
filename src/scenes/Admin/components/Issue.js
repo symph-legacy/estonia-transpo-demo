@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
+import strings from "../../../localisation";
+
 export default class Issue extends Component {
   state = {
     issueId: '',
@@ -63,21 +65,21 @@ export default class Issue extends Component {
       ) : (
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
-            <label htmlFor="description">Issue</label>
+            <label htmlFor="description">{strings.issue}</label>
             <input type="text" className="form-control" id="description" name="description" value={this.state.description} onChange={this.handleChange} placeholder="Enter issue description" autoFocus />
           </div>
           <div className="form-group">
-            <label htmlFor="address">Address</label>
+            <label htmlFor="address">{strings.address}</label>
             <input type="text" className="form-control" id="address" name="address" value={this.state.address} onChange={this.handleChange} placeholder="Enter issue address" />
           </div>
           <div className="form-group">
-            <label htmlFor="reporter">Reporter</label>
+            <label htmlFor="reporter">{strings.reporter}</label>
             <input type="text" className="form-control" id="reporter" name="reporter" value={this.state.reporter} onChange={this.handleChange} placeholder="Enter issue reporter" />
           </div>
           <div className="form-group">
-            <label htmlFor="status">Status</label>
+            <label htmlFor="status">{strings.status}</label>
             <select name="status" id="status" className="form-control" value={this.state.status} onChange={this.handleChange}>
-              <option value="New">New</option>
+              <option value="New">{strings.new}</option>
               <option value="In Progress">In Progress</option>
             </select>
           </div>

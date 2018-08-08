@@ -9,6 +9,8 @@ import { trash } from 'react-icons-kit/fa/trash';
 import { Link } from 'react-router-dom';
 
 import { getAllOrders, deleteOrder } from "../../../services/api";
+import strings from "../../../localisation";
+
 export default class RideOrders extends Component {
   constructor(props) {
     super(props);
@@ -103,10 +105,10 @@ export default class RideOrders extends Component {
           </Row>)
         }
         <div className="d-flex mb-3">
-          <div className="p-2">0 items</div>
-          <div className="p-2">Sorted by Name</div>
+          <div className="p-2">0 {strings.items}</div>
+          <div className="p-2">{strings.sortedByName}</div>
           <div className="ml-auto p-2">
-            <NavLink to={`${this.props.match.url}/new`} className="btn btn-sm btn-primary">New Order</NavLink>
+            <NavLink to={`${this.props.match.url}/new`} className="btn btn-sm btn-primary">{strings.newOrder}</NavLink>
           </div>
         </div>
         <Row>
@@ -115,11 +117,11 @@ export default class RideOrders extends Component {
               <thead className="bg-white border-top border-bottom text-uppercase">
                 <tr>
                   <th></th>
-                  <th>Name</th>
-                  <th>Place</th>
-                  <th>Date and Time</th>
-                  <th>One Way / Roundtrip</th>
-                  <th>Status</th>
+                  <th>{strings.name}</th>
+                  <th>{strings.place}</th>
+                  <th>{strings.dateTime}</th>
+                  <th>{strings.oneWayOrRoundtrip}</th>
+                  <th>{strings.status}</th>
                 </tr>
               </thead>
               <tbody>

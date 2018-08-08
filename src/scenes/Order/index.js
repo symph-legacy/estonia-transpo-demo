@@ -55,6 +55,8 @@ import {
 
 import "./styles.css";
 
+import strings from "../../localisation";
+
 const GOOGLE_API_KEY = 'AIzaSyDbESyZ10IaxgVmjcMBDN2WlGzSEu9vzMM';
 
 class Order extends Component {
@@ -383,7 +385,7 @@ class Order extends Component {
                             disabled={
                                 (isEmptyObject(this.props.from) || isEmptyObject(this.props.target))
                             }>
-                            Confirm current location and target
+                            {strings.confirmCurrentTarget}
                         </Button>
                     </div>
                 </div>
@@ -411,11 +413,11 @@ class Order extends Component {
                         <button
                             className={`btn btn-block btn-outline-secondary m-1 ${(selectedDirection === "Roundtrip" ? "active" : "")}`}
                             onClick={ (e) => this.props.toggleDirection(e.target.value) }
-                            value="Roundtrip">Roundtrip</button>
+                            value="Roundtrip">{strings.roundTrip}</button>
                         <button
                             className={`btn btn-block btn-outline-secondary m-1 ${(selectedDirection === "Oneway" ? "active" : "")}`}
                             onClick={(e) => this.props.toggleDirection(e.target.value)}
-                            value="Oneway">Oneway</button>
+                            value="Oneway">{strings.oneWay}</button>
                     </Col>
                 </Row>
                 <Row>

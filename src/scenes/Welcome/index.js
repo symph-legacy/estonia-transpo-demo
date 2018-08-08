@@ -9,13 +9,14 @@ import { Container, Row, Col } from "reactstrap";
 
 import { CARD_STATIC } from "./strings.js";
 
+import strings from "../../localisation";
 class Welcome extends Component {
     render() {
         return (
             <Container style={{paddingTop: "15px"}}>
                 <Row>
                     <Col xs="12" lg="6" className="margin-auto">
-                        <h3>Welcome</h3>
+                        <h3>{strings.welcome}</h3>
                     </Col>
                     <Col xs="12" lg="6">
                         <SearchBar />

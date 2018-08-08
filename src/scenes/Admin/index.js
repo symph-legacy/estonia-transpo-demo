@@ -18,6 +18,8 @@ import Issue from './components/Issue';
 import './Admin.css';
 import logo from './logo.png';
 
+import strings from "../../localisation";
+
 class Admin extends Component {
   componentDidMount() {
     document.title = 'Back Office';
@@ -31,10 +33,10 @@ class Admin extends Component {
               <div className="d-flex align-items-center my-3" id="header">
                 <div className="d-flex align-items-center bg-white p-2">
                   <div className="mr-3">
-                    <img src={logo} alt="Our Municipality" className="img-fluid" />
+                    <img src={logo} alt={strings.ourMunicipality} className="img-fluid" />
                   </div>
                   <div>
-                    <h1>Our Municipality</h1>
+                    <h1>{strings.ourMunicipality}</h1>
                   </div>
                 </div>
                 <div className="ml-auto">
@@ -49,13 +51,13 @@ class Admin extends Component {
                 <NavItem>
                   <NavLink className="nav-link d-flex" to={`${this.props.match.url}/ride_orders`}>
                     <Icon className="mr-3" icon={home} />
-                    Ride Orders
+                    {strings.rideOrders}
                   </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink className="nav-link d-flex" to={`${this.props.match.url}/issues`}>
                     <Icon className="mr-3" icon={copy} />
-                    Issues
+                    {strings.issues}
                   </NavLink>
                 </NavItem>
               </Nav>

@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { bars } from 'react-icons-kit/fa/bars';
 
 import { truncate } from "../../../../services/helpers";
+import strings from "../../../../localisation";
 
 class CardComponent extends Component {
     constructor(props) {
@@ -40,7 +41,7 @@ class CardComponent extends Component {
                             <button className="btn btn-link"
                                 href="#"
                                 onClick={ () => this.setState({ showLess: !this.state.showLess }) }>
-                                { (this.state.showLess) ? "More" : "Less" }
+                                {(this.state.showLess) ? strings.more : strings.less }
                             </button>
                         </p>
                     </div>

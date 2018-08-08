@@ -7,6 +7,8 @@ import {
 import Icon from 'react-icons-kit';
 import { search } from 'react-icons-kit/fa/search';
 
+import strings from "../../../localisation";
+
 export default () => (
   <InputGroup>
     <InputGroupAddon addonType="prepend">
@@ -14,6 +16,6 @@ export default () => (
         <Icon icon={search} />
       </div>
     </InputGroupAddon>
-    <Input placeholder="Search in database..." />
+    <Input placeholder={strings.searchDatabase} />
   </InputGroup>
 );

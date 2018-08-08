@@ -6,6 +6,7 @@ import {
 
 
 import { Link } from "react-router-dom"
+import strings from "../../localisation";
 
 
 class Tab extends Component {
@@ -13,10 +14,10 @@ class Tab extends Component {
     return (
         <Nav tabs className="mt20">
             <NavItem>
-                <Link className={`nav-link ${this.props.active === "orders" ? "active" : ""}`} to="/orders">Orders</Link>
+                <Link className={`nav-link ${this.props.active === "orders" ? "active" : ""}`} to="/orders">{strings.orders}</Link>
             </NavItem>
             <NavItem>
-                <Link className={`nav-link ${this.props.active === "issues" ? "active" : ""}`} to="/issues">Issues</Link>
+                <Link className={`nav-link ${this.props.active === "issues" ? "active" : ""}`} to="/issues">{strings.issues}</Link>
             </NavItem>
         </Nav>
     )
