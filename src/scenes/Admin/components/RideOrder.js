@@ -7,6 +7,7 @@ import { dotCircleO } from 'react-icons-kit/fa/dotCircleO';
 import { mapMarker } from 'react-icons-kit/fa/mapMarker';
 
 import LocationSearchInput from "../../../components/LocationSearchInput";
+import strings from '../../../localisation';
 
 export default class RideOrder extends Component {
   constructor(props) {
@@ -114,7 +115,7 @@ export default class RideOrder extends Component {
           <Col md="6">
             <form>
               <div className="form-group">
-                <label>Name</label>
+                <label>{strings.name}</label>
                 <input
                   type="text"
                   className="form-control"
@@ -124,7 +125,7 @@ export default class RideOrder extends Component {
               </div>
 
               <div className="form-group">
-                <label>Current Location</label>
+                <label>{strings.from}</label>
                 <LocationSearchInput
                   placeholder="From location"
                   propsDispatch={from => {
@@ -136,7 +137,7 @@ export default class RideOrder extends Component {
               </div>
 
               <div className="form-group">
-                <label>Target Location</label>
+                <label>{strings.to}</label>
                 <LocationSearchInput
                   placeholder="Target location"
                   propsDispatch={target => {
@@ -148,28 +149,28 @@ export default class RideOrder extends Component {
               </div>
 
               <div className="form-group">
-                <label>Payment</label>
+                <label>{strings.paymentOption}</label>
                 <select
                   name="payment_option"
                   value={this.state.payment_option}
                   onChange={e => this.setState({ payment_option: e.target.value })}
                   className="form-control">
 
-                  <option value="Child">Child</option>
-                  <option value="Subsidised">Subsidised</option>
-                  <option value="Regular">Regular</option>
+                  <option value="Child">{strings.child}</option>
+                  <option value="Subsidised">{strings.subsidised}</option>
+                  <option value="Regular">{strings.regular}</option>
                 </select>
               </div>
 
               <div className="form-group">
-                <label>Status</label>
+                <label>{strings.status}</label>
                 <select
                   name="status"
                   value={this.state.status}
                   className="form-control"
                   onChange={e => this.setState({ status: e.target.value })}>
-                  <option value="New">New</option>
-                  <option value="Directed">Directed</option>
+                  <option value="New">{strings.new}</option>
+                  <option value="Directed">{strings.directed}</option>
                 </select>
               </div>
 
@@ -180,8 +181,8 @@ export default class RideOrder extends Component {
                   className="form-control"
                   value={this.state.direction_option}
                   onChange={e => this.setState({ direction_option: e.target.value })}>
-                  <option value="Roundtrip">Roundtrip</option>
-                  <option value="Oneway">Oneway</option>
+                  <option value="Roundtrip">{strings.roundTrip}</option>
+                  <option value="Oneway">{strings.oneWay}</option>
                 </select>
               </div>
 

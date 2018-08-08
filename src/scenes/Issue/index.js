@@ -4,6 +4,8 @@ import Card from './components/Card';
 import Navigation from '../../components/Navigation';
 import './Issue.css';
 
+import strings from "../../localisation";
+
 export default class Issue extends Component {
   state = {
     currentDate: moment().format('YYYY-MM-DD'),
@@ -42,7 +44,7 @@ export default class Issue extends Component {
       <div>
         <Navigation brand="Issue" />
         <div className="issues-list m-3">
-          <h1>Issue {this.state.currentDate}</h1>
+          <h1>{strings.issue} {this.state.currentDate}</h1>
           {this.state.issues.map(issue => (
             <Card key={issue.id} issue={issue} />
           ))}
@@ -52,7 +54,7 @@ export default class Issue extends Component {
             : (
               <div className="attachments mt-3 p-3">
                 <button className="rounded-circle mx-3 attachment-plus text-white" onClick={this.openNewIssueForm}>+</button>
-                <span>Add new aspect</span>
+                  <span>{strings.addNewAspect}</span>
               </div>
             )
           }

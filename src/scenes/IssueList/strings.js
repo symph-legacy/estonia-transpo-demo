@@ -1,4 +1,6 @@
-export const NAV_BRAND = "Issue List"
+import strings from "../../localisation";
+
+export const NAV_BRAND = strings.issue + " List"
 
 // action types
 export const GET_ISSUES = "GET_ISSUES"

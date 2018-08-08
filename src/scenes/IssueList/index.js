@@ -26,6 +26,8 @@ import { trash } from 'react-icons-kit/fa/trash';
 import "./styles.css";
 import moment from 'moment';
 
+import strings from "../../localisation";
+
 class IssueList extends Component {
 
     componentDidMount() {
@@ -37,12 +39,12 @@ class IssueList extends Component {
     renderRow = props => (
         <tr>
             <td data-xs-label="ID #">{props.issue.id}</td>
-            <td data-xs-label="Date Submitted">{ moment(props.issue.created).format("lll") }</td>
-            <td data-xs-label="Reporter">{ toProperCase(props.issue.reporter) }</td>
-            <td data-xs-label="Description">{props.issue.description}</td>
-            <td data-xs-label="Address">{props.issue.address}</td>
-            <td data-xs-label="Attachments"><img className='es-img-thumb' alt='attachment' src={props.issue.attachments} /></td>
-            <td data-xs-label="Status">{props.issue.status}</td>
+            <td data-xs-label={"Date Submitted"}>{ moment(props.issue.created).format("lll") }</td>
+            <td data-xs-label={strings.reporter}>{ toProperCase(props.issue.reporter) }</td>
+            <td data-xs-label={strings.description}>{props.issue.description}</td>
+            <td data-xs-label={strings.address}>{props.issue.address}</td>
+            <td data-xs-label={"Attachments"}><img className='es-img-thumb' alt='attachment' src={props.issue.attachments} /></td>
+            <td data-xs-label={strings.status}>{props.issue.status}</td>
             <td>
                 <button
                     value
@@ -80,11 +82,11 @@ class IssueList extends Component {
                                     <tr>
                                         <th>#</th>
                                         <th>Date Submitted</th>
-                                        <th>Reporter</th>
-                                        <th>Description</th>
-                                        <th>Address</th>
-                                        <th>Attachments</th>
-                                        <th>Status</th>
+                                        <th>{strings.reporter}</th>
+                                        <th>{strings.description}</th>
+                                        <th>{strings.address}</th>
+                                        <th>{"Attachments"}</th>
+                                        <th>{strings.status}</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import strings from "../../../localisation";
 export default class Card extends Component {
   state = {
     description: '',
@@ -63,7 +63,7 @@ export default class Card extends Component {
               <input type="text" placeholder="Issue description" name="description" onChange={this.change} value={this.state.description} />
             </h2>
             <div className="d-flex">
-              <div>Address:</div>
+            <div>{strings.address}</div>
               <div className="ml-2 flex-fill">
                 <input type="text" placeholder="Address of the issue" name="address" onChange={this.change} value={this.state.address} />
               </div>
@@ -82,7 +82,7 @@ export default class Card extends Component {
     ) : (
       <div className="issue p-3 my-3">
         <h2>{this.props.issue.description}</h2>
-        <span>Address: {this.props.issue.address}</span>
+        <span>{ strings.address } {this.props.issue.address}</span>
         <div className="attachments mt-3 p-3">
           <img src={this.props.issue.attachments} alt="Attachment" className="rounded-circle mx-3"/>
           <a href={this.props.issue.attachments}>

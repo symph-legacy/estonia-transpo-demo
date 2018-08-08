@@ -12,6 +12,8 @@ import { search } from 'react-icons-kit/fa/search';
 
 import React, { Component } from 'react'
 
+import strings from "../../localisation";
+
 class Navigation extends Component {
   constructor(props) {
     super(props);
@@ -40,13 +42,13 @@ class Navigation extends Component {
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>
             <NavItem>
-              <Link className="nav-link" to="/">Welcome</Link>
+              <Link className="nav-link" to="/">{strings.welcome}</Link>
             </NavItem>
             <NavItem>
-              <Link className="nav-link" to="/order">Order</Link>
+              <Link className="nav-link" to="/order">{strings.order}</Link>
             </NavItem>
             <NavItem>
-              <Link className="nav-link" to="/issue">Issue</Link>
+              <Link className="nav-link" to="/issue">{strings.issue}</Link>
             </NavItem>
             <NavItem>
               <Link className="nav-link" to="/orders">History</Link>
