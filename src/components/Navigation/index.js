@@ -51,7 +51,7 @@ class Navigation extends Component {
               <Link className="nav-link" to="/issue">{strings.issue}</Link>
             </NavItem>
             <NavItem>
-              <Link className="nav-link" to="/orders">History</Link>
+              <Link className="nav-link" to="/orders">{strings.history}</Link>
             </NavItem>
           </Nav>
         </Collapse>

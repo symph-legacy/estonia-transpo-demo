@@ -72,7 +72,7 @@ class OrderList extends Component {
                     value
                     className="btn btn-danger"
                     onClick={(e) => {
-                        if(window.confirm(`Are you sure you want to delete order #${props.order.id}? This can't be undone.`)) {
+                        if(window.confirm(strings.deleteOrder)) {
                             deleteOrder(props.order.id).then(() => {
                                 this.props.removeOrderItem(props.order.id);
                             });
@@ -109,7 +109,7 @@ class OrderList extends Component {
                                         <th>{strings.paymentOption}</th>
                                         <th>{strings.rideType}</th>
                                         <th>{strings.status}</th>
-                                        <th>Action</th>
+                                        <th>{strings.action}</th>
                                     </tr>
                                 </thead>
                                 <tbody>

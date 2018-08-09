@@ -66,21 +66,21 @@ export default class Issue extends Component {
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label htmlFor="description">{strings.issue}</label>
-            <input type="text" className="form-control" id="description" name="description" value={this.state.description} onChange={this.handleChange} placeholder="Enter issue description" autoFocus />
+            <input type="text" className="form-control" id="description" name="description" value={this.state.description} onChange={this.handleChange} placeholder={strings.enterIssueDescription} autoFocus />
           </div>
           <div className="form-group">
             <label htmlFor="address">{strings.address}</label>
-            <input type="text" className="form-control" id="address" name="address" value={this.state.address} onChange={this.handleChange} placeholder="Enter issue address" />
+            <input type="text" className="form-control" id="address" name="address" value={this.state.address} onChange={this.handleChange} placeholder={strings.enterIssueAddress} />
           </div>
           <div className="form-group">
             <label htmlFor="reporter">{strings.reporter}</label>
-            <input type="text" className="form-control" id="reporter" name="reporter" value={this.state.reporter} onChange={this.handleChange} placeholder="Enter issue reporter" />
+            <input type="text" className="form-control" id="reporter" name="reporter" value={this.state.reporter} onChange={this.handleChange} placeholder={strings.enterIssueReporter} />
           </div>
           <div className="form-group">
             <label htmlFor="status">{strings.status}</label>
             <select name="status" id="status" className="form-control" value={this.state.status} onChange={this.handleChange}>
               <option value="New">{strings.new}</option>
-              <option value="In Progress">In Progress</option>
+              <option value={strings.inProgress}>{strings.inProgress}</option>
             </select>
           </div>
           {this.state.issueId && (
@@ -93,7 +93,7 @@ export default class Issue extends Component {
               </div>
             </div>
           )}
-          <button type="submit" className="btn btn-primary">Submit Issue</button>
+          <button type="submit" className="btn btn-primary">{strings.submitIssue}</button>
         </form>
       );
   }

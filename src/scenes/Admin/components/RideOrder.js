@@ -119,7 +119,7 @@ export default class RideOrder extends Component {
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Enter name"
+                  placeholder={strings.enterName}
                   onChange={e => this.setState({name: e.target.value})}
                   value={this.state.name} />
               </div>
@@ -127,7 +127,7 @@ export default class RideOrder extends Component {
               <div className="form-group">
                 <label>{strings.from}</label>
                 <LocationSearchInput
-                  placeholder="From location"
+                  placeholder={strings.fromLocation}
                   propsDispatch={from => {
                     this.setState({ from });
                   }}
@@ -175,7 +175,7 @@ export default class RideOrder extends Component {
               </div>
 
               <div className="form-group">
-                <label>Direction</label>
+                <label>{strings.direction}</label>
                 <select
                   name="direction_option"
                   className="form-control"
@@ -189,21 +189,21 @@ export default class RideOrder extends Component {
               <Row>
                 <Col>
                   <div className="form-group">
-                    <label>Day</label>
+                    <label>{strings.day}</label>
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="Enter date (DD.MM.YYYY)"
+                      placeholder={`${strings.enterDate} (DD.MM.YYYY)`}
                       value={this.state.day_chosen}
                       onChange={e => this.setState({ day_chosen: e.target.value })} />
                   </div>
 
                   <div className="form-group">
-                    <label>Time</label>
+                    <label>{strings.time}</label>
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="Enter time (HH.mm)"
+                      placeholder={`${strings.enterTime} (HH.mm)`}
                       value={this.state.time_chosen}
                       onChange={e => this.setState({ time_chosen: e.target.value })} />
                   </div>
@@ -215,7 +215,7 @@ export default class RideOrder extends Component {
                       <input
                         type="text"
                         className="form-control"
-                        placeholder="Enter date (DD.MM.YYYY)"
+                        placeholder={`${strings.enterDate} (DD.MM.YYYY)`}
                         value={this.state.day_chosen2}
                         onChange={e => this.setState({ day_chosen2: e.target.value })} />
                     </div>
@@ -225,7 +225,7 @@ export default class RideOrder extends Component {
                       <input
                         type="text"
                         className="form-control"
-                        placeholder="Enter time (HH.mm)"
+                        placeholder={`${strings.enterTime} (HH.mm)`}
                         value={this.state.time_chosen2}
                         onChange={e => this.setState({ time_chosen2: e.target.value })} />
                     </div>
@@ -238,7 +238,7 @@ export default class RideOrder extends Component {
                 className="mt20 btn btn-primary"
                 disabled={this.state.isButtonLoading}
                 onClick={this.onSubmit}>
-                {(this.state.isButtonLoading ? 'Saving...' : 'Save Ride Order')}
+                {(this.state.isButtonLoading ? strings.saving : strings.saveRideOrder)}
               </button>
             </form>
           </Col>

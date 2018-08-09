@@ -39,18 +39,18 @@ class IssueList extends Component {
     renderRow = props => (
         <tr>
             <td data-xs-label="ID #">{props.issue.id}</td>
-            <td data-xs-label={"Date Submitted"}>{ moment(props.issue.created).format("lll") }</td>
+            <td data-xs-label={strings.dateSubmitted}>{ moment(props.issue.created).format("lll") }</td>
             <td data-xs-label={strings.reporter}>{ toProperCase(props.issue.reporter) }</td>
             <td data-xs-label={strings.description}>{props.issue.description}</td>
             <td data-xs-label={strings.address}>{props.issue.address}</td>
-            <td data-xs-label={"Attachments"}><img className='es-img-thumb' alt='attachment' src={props.issue.attachments} /></td>
+            <td data-xs-label={strings.attachments}><img className='es-img-thumb' alt='attachment' src={props.issue.attachments} /></td>
             <td data-xs-label={strings.status}>{props.issue.status}</td>
             <td>
                 <button
                     value
                     className="btn btn-danger"
                     onClick={(e) => {
-                        if (window.confirm(`Are you sure you want to delete issue #${props.issue.id}? This can't be undone.`)) {
+                        if (window.confirm(strings.deleteOrder)) {
                             deleteIssue(props.issue.id).then(() => {
                                 this.props.removeIssueItem(props.issue.id);
                             });
@@ -81,13 +81,13 @@ class IssueList extends Component {
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Date Submitted</th>
+                                        <th>{strings.dateSubmitted}</th>
                                         <th>{strings.reporter}</th>
                                         <th>{strings.description}</th>
                                         <th>{strings.address}</th>
-                                        <th>{"Attachments"}</th>
+                                        <th>{strings.attachments}</th>
                                         <th>{strings.status}</th>
-                                        <th>Action</th>
+                                        <th>{strings.action}</th>
                                     </tr>
                                 </thead>
                                 <tbody>

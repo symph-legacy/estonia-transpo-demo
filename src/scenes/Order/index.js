@@ -270,10 +270,10 @@ class Order extends Component {
 
     onFocus = (e) => {
         switch (e.target.placeholder) {
-            case "From location":
+            case strings.fromLocation:
                 this.props.toggleMapClick("FROM");
                 break;
-            case "Target location":
+            case strings.targetLocation:
                 this.props.toggleMapClick("TARGET");
                 break;
         
@@ -337,7 +337,7 @@ class Order extends Component {
                         <FormGroup className="es-destination">
                             <LocationSearchInput
                                 tip="Click this to activate selecting current location by clicking the map."
-                                placeholder="From location"
+                                placeholder={strings.fromLocation}
                                 onFocus={this.onFocus}
                                 onBlur={this.onBlur}
                                 activeClick={this.props.chosenLocationInput === "FROM" }
@@ -405,7 +405,7 @@ class Order extends Component {
                         <div className="es-order-info">
                             <h6 className="mb0">Kersti Kangro</h6>
                             <small className="mb0">
-                                { toProperCase(this.props.selectedOption) } transport
+                                { toProperCase(`${this.props.selectedOption} ${strings.transport}`) }
                             </small>
                         </div>
                     </Col>
@@ -437,7 +437,7 @@ class Order extends Component {
                                         <button
                                             className="btn btn-secondary es-btn-picker"
                                             onClick={this.toggleDatepicker1}>
-                                            Day
+                                            {strings.day}
                                         </button>
                                     </Col>
                                     <Col className="align-items-center d-flex mb10">
@@ -449,7 +449,7 @@ class Order extends Component {
                                         <button
                                             className="btn btn-secondary es-btn-picker"
                                             onClick={this.toggleTimepicker1}>
-                                            Time
+                                            {strings.time}
                                         </button>
                                     </Col>
                                     <Col className="align-items-center d-flex mb10">
@@ -484,19 +484,19 @@ class Order extends Component {
                             </CardBody>
                             <CardFooter>
                                 <h6>{ this.props.from.address } - { this.props.target.address }</h6>
-                                <small className="mb25">To</small>
+                                <small className="mb25">{strings.to}</small>
                                 <Row>
                                     <Col>
                                         <Button
                                             color="link"
                                             onClick={() => this.props.nextStep(this.props.step - 1)}>
-                                            CHANGE
+                                            {strings.change}
                                         </Button>
                                     </Col>
                                     <Col>
                                         <a href="/order" className="btn btn-link"
                                             onClick={() => this.props.nextStep(this.props.step - 1)}>
-                                            CANCEL
+                                            {strings.cancel}
                                         </a>
                                     </Col>
                                 </Row>
@@ -513,7 +513,7 @@ class Order extends Component {
                                                 <button
                                                     className="btn btn-secondary es-btn-picker"
                                                     onClick={this.toggleDatepicker2}>
-                                                    Day
+                                                    {strings.day}
                                                 </button>
                                             </Col>
                                             <Col className="align-items-center d-flex mb10">
@@ -525,7 +525,7 @@ class Order extends Component {
                                                 <button
                                                     className="btn btn-secondary es-btn-picker"
                                                     onClick={this.toggleTimepicker2}>
-                                                    Time
+                                                    {strings.time}
                                                 </button>
                                             </Col>
                                             <Col className="align-items-center d-flex mb10">
@@ -560,19 +560,19 @@ class Order extends Component {
                                     </CardBody>
                                     <CardFooter>
                                         <h6>{this.props.target.address} - {this.props.from.address}</h6>
-                                        <small className="mb25">From</small>
+                                        <small className="mb25">{strings.from}</small>
                                         <Row>
                                             <Col>
                                                 <Button
                                                     color="link"
                                                     onClick={() => this.props.nextStep(this.props.step - 1)}>
-                                                    CHANGE
+                                                    {strings.change}
                                                 </Button>
                                             </Col>
                                             <Col>
                                                 <a href="/order" className="btn btn-link"
                                                     onClick={() => this.props.nextStep(this.props.step - 1)}>
-                                                    CANCEL
+                                                    {strings.cancel}
                                                 </a>
                                             </Col>
                                         </Row>
@@ -629,7 +629,7 @@ class Order extends Component {
                                     });
                                 });
                             }}>
-                            { ( this.state.isButtonLoading ? 'Confirming...' : 'Confirm Order') }
+                            { ( this.state.isButtonLoading ? strings.confirming : strings.confirmOrder) }
                         </Button>
                     </Col>
                 </Row>

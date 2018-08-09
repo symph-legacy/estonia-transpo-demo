@@ -60,23 +60,23 @@ export default class Card extends Component {
       <form className="clearfix" onSubmit={this.submit}>
         <div className="issue p-3 my-3">
             <h2>
-              <input type="text" placeholder="Issue description" name="description" onChange={this.change} value={this.state.description} />
+              <input type="text" placeholder={strings.issueDescription} name="description" onChange={this.change} value={this.state.description} />
             </h2>
             <div className="d-flex">
             <div>{strings.address}</div>
               <div className="ml-2 flex-fill">
-                <input type="text" placeholder="Address of the issue" name="address" onChange={this.change} value={this.state.address} />
+                <input type="text" placeholder={strings.addressOfTheIssue} name="address" onChange={this.change} value={this.state.address} />
               </div>
             </div>
           <div className="attachments mt-3 p-3">
             <button type="button" className="rounded-circle mx-3 attachment-plus text-white" onClick={this.selectFile}>+</button>
-            <span>Add picture</span>
+            <span>{strings.addPicture}</span>
             <input type="file" name="attachment" id="attachment" className="d-none" onChange={this.fileSelected} />
           </div>
         </div>
         <div className="d-flex flex-row float-right">
-          <button type="submit" className="btn btn-link">Send to us</button>
-          <button type="button" className="btn btn-link" onClick={this.props.closeNewIssueForm}>Discard</button>
+          <button type="submit" className="btn btn-link">{strings.sendToUs}</button>
+          <button type="button" className="btn btn-link" onClick={this.props.closeNewIssueForm}>{strings.discard}</button>
         </div>
       </form>
     ) : (

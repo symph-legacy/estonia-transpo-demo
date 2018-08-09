@@ -24,14 +24,14 @@ export default class RideOrders extends Component {
   componentDidMount() {
     if(this.props.location.hash === "#updated") {
       this.setState({
-        message: "Successfully updated ride order.",
+        message: strings.successfullyUpdatedRideOrder,
         showAlert: true
       });
     }
 
     if(this.props.location.hash === "#created") {
       this.setState({
-        message: "Successfully created a new ride order.",
+        message: strings.successfullyCreatedANewRideOrder,
         showAlert: true
       });
     }
@@ -51,7 +51,7 @@ export default class RideOrders extends Component {
         </div>
         <button className="rounded-circle bg-red p-1 text-white"
                 onClick={(e) => {
-                  if (window.confirm(`Are you sure you want to delete order #${props.order.id}? This can't be undone.`)) {
+                  if (window.confirm(strings.deleteOrder)) {
                     deleteOrder(props.order.id).then(() => {
                       let orderList = this.state.orderList.filter(order => order.id !== props.order.id);
                       this.setState({ orderList });
