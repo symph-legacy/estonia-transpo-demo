@@ -647,8 +647,8 @@ class Order extends Component {
                         </div>
                     </Col>
                     <Col sm="12" className="mb100">
-                        <h4>Your order is well received!</h4>
-                        <p>Confirmation will arrive to your mail</p>
+                        <h4>{strings.orderReceived}</h4>
+                        <p>{strings.confirmationWillReceive}</p>
                     </Col>
                     <Col sm="12" className="mb20">
                         <a className="btn btn-outline-primary btn-120" href="/order">OK</a>
