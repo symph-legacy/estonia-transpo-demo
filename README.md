@@ -47,6 +47,8 @@
   # Collect static files via Django
   python manage.py collectstatic
   
-  # Restart machine (TODO: reflecting deployment changes without restarting machine)
-  sudo shutdown -r 0
+  # Reload UWSGI server to reflect changes
+  uwsgi --reload /tmp/estoniatranspo.pid
+  # or
+  touch /tmp/estoniatranspo
 ```
