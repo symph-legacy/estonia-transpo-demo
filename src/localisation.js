@@ -73,7 +73,9 @@ let strings = new LocalizedStrings({
         enterIssueReporter: 'Enter issue reporter',
         submitIssue: 'Submit Issue',
         successfullyUpdatedRideOrder: 'Successfully updated ride order.',
-        successfullyCreatedANewRideOrder: 'Successfully created a new ride order.'
+        successfullyCreatedANewRideOrder: 'Successfully created a new ride order.',
+        orderReceived: 'Your order is well received',
+        confirmationWillReceive: 'Confirmation will arrive to your mail'
     },
     et: {
         welcome: "Tere tulemast!",
@@ -146,7 +148,9 @@ let strings = new LocalizedStrings({
         enterIssueReporter: 'Sisesta oma nimi',
         submitIssue: 'Estita tagasiside',
         successfullyUpdatedRideOrder: 'Tellimus edukalt uuendatud',
-        successfullyCreatedANewRideOrder: 'Uus tellimus loodud'
+        successfullyCreatedANewRideOrder: 'Uus tellimus loodud',
+        orderReceived: 'Tellimus kätte saadud',
+        confirmationWillReceive: 'Kinnitus saadetud e-postile'
     },
     est: {
         welcome: "Tere tulemast!",
@@ -219,7 +223,9 @@ let strings = new LocalizedStrings({
         enterIssueReporter: 'Sisesta oma nimi',
         submitIssue: 'Estita tagasiside',
         successfullyUpdatedRideOrder: 'Tellimus edukalt uuendatud',
-        successfullyCreatedANewRideOrder: 'Uus tellimus loodud'
+        successfullyCreatedANewRideOrder: 'Uus tellimus loodud',
+        orderReceived: 'Tellimus kätte saadud',
+        confirmationWillReceive: 'Kinnitus saadetud e-postile'
     },
     eesti: {
         welcome: "Tere tulemast!",
@@ -292,7 +298,9 @@ let strings = new LocalizedStrings({
         enterIssueReporter: 'Sisesta oma nimi',
         submitIssue: 'Estita tagasiside',
         successfullyUpdatedRideOrder: 'Tellimus edukalt uuendatud',
-        successfullyCreatedANewRideOrder: 'Uus tellimus loodud'
+        successfullyCreatedANewRideOrder: 'Uus tellimus loodud',
+        orderReceived: 'Tellimus kätte saadud',
+        confirmationWillReceive: 'Kinnitus saadetud e-postile'
     }
 });
 
