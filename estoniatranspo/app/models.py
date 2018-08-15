@@ -22,6 +22,8 @@ class RideOrder(models.Model):
         blank=True
     )
 
+    first_trip_taskid = models.TextField(default='', blank=True)
+    second_trip_taskid = models.TextField(default='', blank=True)
     day_chosen = models.TextField(default='', blank=True)
     time_chosen = models.TextField(default='', blank=True)
     day_chosen2 = models.TextField(default='', blank=True)
