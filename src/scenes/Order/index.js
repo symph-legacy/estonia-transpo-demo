@@ -20,11 +20,12 @@ import TargetLocation from "./components/TargetLocation";
 
 import { submitOrder, getLatestOrder } from "../../services/api";
 import { getAddressByLatLng } from '../../services/geocode'
-import { isEmptyObject, toProperCase } from "../../services/helpers";
+import { isEmptyObject, translateData } from "../../services/helpers";
 
 import ReactTooltip from 'react-tooltip';
 import DatePicker from 'react-datepicker';
 
+import 'moment/locale/et';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import {
@@ -244,7 +245,7 @@ class Order extends Component {
         }
 
         if(func) {
-            func({ lat, lng, address: "Processing address..."});
+            func({ lat, lng, address: strings.processingAddress});
             getAddressByLatLng({ lat, lng }).then(response => {
                 let places = response.results;
                 if (places && places.length) {
@@ -349,7 +350,7 @@ class Order extends Component {
                         <FormGroup className="es-destination">
                             <LocationSearchInput
                                 tip="Click this to activate selecting target location by clicking the map."
-                                placeholder="Target location"
+                                placeholder={strings.targetLocation}
                                 onFocus={this.onFocus}
                                 onBlur={this.onBlur}
                                 activeClick={this.props.chosenLocationInput === "TARGET" }
@@ -393,6 +394,7 @@ class Order extends Component {
         )
     }
 
+
     renderStepTwo = () => {
         let { from, target, selectedDirection } = this.props;
 
@@ -405,7 +407,7 @@ class Order extends Component {
                         <div className="es-order-info">
                             <h6 className="mb0">Kersti Kangro</h6>
                             <small className="mb0">
-                                { toProperCase(`${this.props.selectedOption} ${strings.transport}`) }
+                                {translateData(`${this.props.selectedOption} TRANSPORT`)}
                             </small>
                         </div>
                     </Col>
@@ -460,6 +462,7 @@ class Order extends Component {
                                 {
                                     this.state.isDatePickerOpen1 && (
                                         <DatePicker
+                                            locale={window.navigator.userLanguage || window.navigator.language}
                                             selected={this.state.startDate}
                                             onChange={this.handleDateChange1}
                                             withPortal
@@ -469,13 +472,14 @@ class Order extends Component {
                                 {
                                     this.state.isTimePickerOpen1 && (
                                         <DatePicker
+                                            locale={window.navigator.userLanguage || window.navigator.language}
                                             selected={this.state.startDate}
                                             onChange={this.handleTimeChange1}
                                             showTimeSelect
                                             showTimeSelectOnly
                                             dateFormat="LT"
-                                            timeCaption="Time"
-                                            timeFormat="HH:mm"
+                                            timeCaption={strings.timePickerCaption}
+                                            timeFormat="HH.mm"
                                             timeIntervals={5}
                                             withPortal
                                             inline />
@@ -536,6 +540,7 @@ class Order extends Component {
                                         {
                                             this.state.isDatePickerOpen2 && (
                                                 <DatePicker
+                                                    locale={window.navigator.userLanguage || window.navigator.language}
                                                     selected={this.state.startDate}
                                                     onChange={this.handleDateChange2}
                                                     withPortal
@@ -545,14 +550,15 @@ class Order extends Component {
                                         {
                                             this.state.isTimePickerOpen2 && (
                                                 <DatePicker
+                                                    locale={window.navigator.userLanguage || window.navigator.language}
                                                     selected={this.state.startDate}
                                                     onChange={this.handleTimeChange2}
                                                     showTimeSelect
                                                     showTimeSelectOnly
                                                     dateFormat="LT"
-                                                    timeFormat="HH:mm"
+                                                    timeFormat="HH.mm"
                                                     timeIntervals={5}
-                                                    timeCaption="Time"
+                                                    timeCaption={strings.timePickerCaption}
                                                     withPortal
                                                     inline />
                                             )

@@ -13,7 +13,7 @@ import {
     Table
 } from "reactstrap";
 
-import { toProperCase } from "../../services/helpers";
+import { toProperCase, translateData } from "../../services/helpers";
 
 import { getOrders, removeOrderItem } from "./actions"
 
@@ -33,6 +33,10 @@ class OrderList extends Component {
         getAllOrders().then(response => {
             this.props.getOrders(response);
         })
+    }
+
+    translateChosen = chosen => {
+        
     }
 
     renderRow = props => (
@@ -64,9 +68,9 @@ class OrderList extends Component {
                     </React.Fragment>
                 )}
             </td>
-            <td data-xs-label={strings.paymentOption}>{ toProperCase(props.order.payment_option) || '-' }</td>
-            <td data-xs-label={strings.rideType}>{ toProperCase(props.order.direction_option) || '-' }</td>
-            <td data-xs-label={strings.status}>{ toProperCase(props.order.status) }</td>
+            <td data-xs-label={strings.paymentOption}>{translateData(props.order.payment_option) || '-' }</td>
+            <td data-xs-label={strings.rideType}>{translateData(props.order.direction_option) || '-' }</td>
+            <td data-xs-label={strings.status}>{translateData(props.order.status) }</td>
             <td>
                 <button
                     value

@@ -267,3 +267,9 @@
     border-color: #666;
     color: #fff;
 }
+
+.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box,
+.react-datepicker__time-container,
+.react-datepicker__header--time {
+    width: 150px;
+}

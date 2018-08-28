@@ -1,6 +1,6 @@
 import strings from "../../localisation";
 
-export const NAV_BRAND = strings.order + " List"
+export const NAV_BRAND = strings.orderList
 
 // action types
 export const GET_ORDERS = "GET_ORDERS"

@@ -12,6 +12,8 @@ import {
     TOGGLE_MAP_CLICK
 } from "./strings";
 
+import strings from '../../localisation';
+
 const initialState = {
     selectedPaymentOption: "Child",
     selectedDirection: "Roundtrip",
@@ -22,7 +24,7 @@ const initialState = {
     from: {
         lat: 58.5953,
         lng: 25.0136,
-        address: "Estonia"
+        address: strings.estonia
     },
     target: {},
     // from: {
