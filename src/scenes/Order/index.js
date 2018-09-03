@@ -25,6 +25,7 @@ import { isEmptyObject, translateData } from "../../services/helpers";
 import ReactTooltip from 'react-tooltip';
 import DatePicker from 'react-datepicker';
 
+import moment from 'moment';
 import 'moment/locale/et';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -39,7 +40,9 @@ import {
     changeDay2,
     changeTime1,
     changeTime2,
-    toggleMapClick
+    toggleMapClick,
+    switchTrip,
+    updateSecondTrip
 } from "./actions"
 
 
@@ -79,7 +82,11 @@ class Order extends Component {
             isButtonLoading: false,
             latest: {},
             showLatest: true,
-            distance: ""
+            distance: "",
+            selectedDate1: moment(),
+            selectedDate2: moment(),
+            selectedTime1: moment("00.00", "HH.mm"),
+            selectedTime2: moment("00.00", "HH.mm"),
         };
     }
 
@@ -110,17 +117,28 @@ class Order extends Component {
 
         getLatestOrder().then((latest) => {
             if(!isEmptyObject(latest)) {
+                let lat = !latest.fields.second_target_location_lat
+                    ? parseFloat(latest.fields.target_location_lat)
+                    : parseFloat(latest.fields.second_target_location_lat);
+
+                let lng = !latest.fields.second_target_location_lng
+                    ? parseFloat(latest.fields.target_location_lng)
+                    : parseFloat(latest.fields.second_target_location_lng);
+
+                let address = !latest.fields.second_target_location_name
+                    ? latest.fields.target_location_name
+                    : latest.fields.second_target_location_name;
+
                 this.setState({
-                    latest: {
-                        lat: parseFloat(latest.fields.target_location_lat),
-                        lng: parseFloat(latest.fields.target_location_lng),
-                        address: latest.fields.target_location_name
-                    }
+                    latest: { lat, lng, address }
                 });
             } else {
                 console.log("Latest order not found.");
             }
         });
+
+        this.props.changeDay1(this.state.selectedDate1.format("DD.MM.YYYY"));
+        this.props.changeDay2(this.state.selectedDate2.format("DD.MM.YYYY"));
         
         setTimeout(() => {
             this.renderRoute();
@@ -132,73 +150,49 @@ class Order extends Component {
         this.props.togglePayment(e.target.value);
     }
 
-    renderRoute = (defaultTarget = null) => {
-        if(!this.state.mapLoaded) return false;
+    isCorrectDateTime = () => {
+        let dateTime1 = moment(`${this.state.selectedDate1.format("DD.MM.YYYY")} ${this.state.selectedTime1.format("HH.mm")}`, "DD.MM.YYYY HH.mm");
+        let dateTime2 = moment(`${this.state.selectedDate2.format("DD.MM.YYYY")} ${this.state.selectedTime2.format("HH.mm")}`, "DD.MM.YYYY HH.mm");
 
-        if (this.state.directionsDisplay != null) {
-            this.state.directionsDisplay.setDirections({ routes: [] });
-        }
-
-        let { from, target } = this.props;
-        if (defaultTarget) target = Object.assign({}, defaultTarget);
-        if ((isEmptyObject(from) || isEmptyObject(target))) {
-            console.log("Can't render router, missing origin or destination.");
-            return false;
-        }
-
-        this.state.directionsService.route({
-            origin: `${from.lat}, ${from.lng}`,
-            destination: `${target.lat}, ${target.lng}`,
-            waypoints: [],
-            optimizeWaypoints: true,
-            travelMode: 'DRIVING'
-        }, (response, status) => {
-            this.state.directionsDisplay.setDirections(response);
-            if(response.routes.length){
-                this.setState({
-                    distance: response.routes[0].legs[0].distance.text,
-                    time: response.routes[0].legs[0].duration.text,
-                });
+        if (dateTime1.isValid() && dateTime2.isValid()) {
+            if (dateTime2.isBefore(dateTime1, 'days')) {
+                this.props.changeDay2(dateTime1.format("DD.MM.YYYY"));
+                this.setState({ selectedDate2: this.state.selectedDate1 });
             }
-        });
-    }
 
-    renderPaymentButton = () => {
-        return BUTTON_GROUP.map(btn => {
-            let cls = `${(this.props.selectedOption === btn.key) ?
-                'active' : ''} btn btn-outline-secondary`;
-
-            return (
-                <label className={cls} key={btn.key} >
-                    <input type="radio"
-                        value={btn.key}
-                        name="paymentOptions"
-                        autoComplete="off"
-                        onChange={this.paymentOptionChange }
-                        checked={this.props.selectedOption === btn.key} /> {btn.text}
-                </label>
-            )
-        })
+            if (this.props.chosenTime1 && dateTime2.isSameOrBefore(dateTime1)) {
+                this.props.changeTime2(dateTime1.clone().add(5, 'minutes').format("HH.mm"));
+                this.setState({ selectedTime2: dateTime1.clone().add(5, 'minutes') });
+            }
+        }
     }
 
     handleDateChange1 = date => {
         this.props.changeDay1(date.format("DD.MM.YYYY"));
         this.toggleDatepicker1();
+
+        this.setState({ selectedDate1: date }, this.isCorrectDateTime);
     }
 
     handleDateChange2 = date => {
         this.props.changeDay2(date.format("DD.MM.YYYY"));
         this.toggleDatepicker2();
+
+        this.setState({ selectedDate2: date }, this.isCorrectDateTime);
     }
 
     handleTimeChange1 = time => {
         this.props.changeTime1(time.format("HH.mm"));
         this.toggleTimepicker1();
+
+        this.setState({ selectedTime1: time }, this.isCorrectDateTime);
     }
 
     handleTimeChange2 = time => {
         this.props.changeTime2(time.format("HH.mm"));
         this.toggleTimepicker2();
+
+        this.setState({ selectedTime2: time }, this.isCorrectDateTime);
     }
 
     toggleDatepicker1 = e => {
@@ -221,8 +215,31 @@ class Order extends Component {
         this.setState({ isTimePickerOpen2: !this.state.isTimePickerOpen2 })
     }
 
+    getMinTime = () => {
+        let day1 = moment(this.props.chosenDay1, "DD.MM.YYYY");
+        let day2 = moment(this.props.chosenDay2, "DD.MM.YYYY");
+        let chosenTime = moment(this.props.chosenTime1, "HH.mm");
+
+        if (day1.isSame(day2, 'day') && chosenTime.isValid()) {
+            return chosenTime.clone().add(5, 'minutes');
+        }
+
+        return moment().hours(0).minutes(0);
+    }
+
+    getMaxTime = () => {
+        return moment().hours(23).minutes(55);
+    }
+
     onPreviousLocationClicked = () => {
-        this.props.changeTargetLocation(this.state.latest);
+        if(this.props.selectedTrip === 2) {
+            this.props.updateSecondTrip({
+                ...this.props.secondTrip,
+                target: this.state.latest
+            })
+        } else {
+            this.props.changeTargetLocation(this.state.latest);
+        }
         this.renderRoute(this.state.latest);
         this.toggleLatest();
     }
@@ -244,6 +261,10 @@ class Order extends Component {
                 break;
         }
 
+        if(this.props.selectedTrip === 2) {
+            func = this.updateTripWrapper;    
+        }
+        
         if(func) {
             func({ lat, lng, address: strings.processingAddress});
             getAddressByLatLng({ lat, lng }).then(response => {
@@ -260,6 +281,13 @@ class Order extends Component {
                 }
             });
         }
+    }
+
+    updateTripWrapper = trip => {
+        this.props.updateSecondTrip({
+            ...this.props.secondTrip,
+            [this.props.chosenLocationInput.toLowerCase()]: trip
+        });
     }
 
     onToggleMapClick = ( e ) => {
@@ -286,6 +314,157 @@ class Order extends Component {
 
     onBlur = (e) => {
         console.log(e.target.placeholder);
+    }
+
+    chooseFrom = () => {
+        return this.props.selectedTrip === 1 ?
+            this.props.from :
+                this.props.secondTrip.from;
+    }
+
+    chooseTarget = () => {
+        return this.props.selectedTrip === 1 ?
+            this.props.target :
+            this.props.secondTrip.target;
+    }
+
+    changeSecondTripFrom = trip => {
+        this.props.updateSecondTrip({
+            ...this.props.secondTrip,
+            from: trip
+        });
+    }
+
+    changeSecondTripTarget = trip => {
+        this.props.updateSecondTrip({
+            ...this.props.secondTrip,
+            target: trip
+        });
+    }
+
+    initSecondTrip = () => {
+        this.props.updateSecondTrip({
+            ...this.props.selectedTrip,
+            from: { ...this.props.target },
+            target: { ...this.props.from }
+        })
+    }
+
+    onChangeButtonClick = e => {
+        let selectedTrip = parseInt(e.target.value);
+        let from = this.props.secondTrip.from;
+        if(selectedTrip === 2
+            && isEmptyObject(from)) {
+            this.initSecondTrip();
+        }
+
+        this.props.switchTrip(parseInt(e.target.value));
+        this.props.nextStep(this.props.step - 1);
+    }
+
+    onClickConfirmOrder = e => {
+        this.setState({ isButtonLoading: !this.state.isButtonLoading });
+
+        let formData = {
+            "name": "Kersti Kangro",
+            "roundtrip": false,
+            "payment_option": this.props.selectedOption,
+            "direction_option": this.props.selectedDirection,
+            "current_location_name": this.props.from.address,
+            "current_location_lat": `${this.props.from.lat}`,
+            "current_location_lng": `${this.props.from.lng}`,
+            "target_location_name": this.props.target.address,
+            "target_location_lat": `${this.props.target.lat}`,
+            "target_location_lng": `${this.props.target.lng}`,
+            "day_chosen": this.props.chosenDay1,
+            "time_chosen": this.props.chosenTime1,
+            "day_chosen2": this.props.chosenDay2,
+            "time_chosen2": this.props.chosenTime2
+        }
+
+        if (formData['direction_option'] !== "Roundtrip") {
+            delete formData["day_chosen2"]
+            delete formData["time_chosen2"]
+        } else {
+            // if empty let target be the from of the second trip
+            let from = isEmptyObject(this.props.secondTrip.from)
+                ? this.props.target : this.props.secondTrip.from;
+
+            // if empty let from be the from of the second trip
+            let target = isEmptyObject(this.props.secondTrip.target)
+                ? this.props.from : this.props.secondTrip.target;
+
+            formData["second_current_location_name"] = from.address;
+            formData["second_current_location_lat"] = `${from.lat}`;
+            formData["second_current_location_lng"] = `${from.lng}`;
+
+            formData["second_target_location_name"] = target.address;
+            formData["second_target_location_lat"] = `${target.lat}`;
+            formData["second_target_location_lng"] = `${target.lng}`;
+        }
+
+        submitOrder(formData).then(response => {
+            this.setState({
+                isButtonLoading: !this.state.isButtonLoading
+            }, () => {
+                if (response.id) {
+                    this.props.nextStep(this.props.step + 1);
+                } else {
+                    alert("Something went wrong...");
+                }
+            });
+        });
+    }
+
+    renderRoute = (defaultTarget = null) => {
+        if (!this.state.mapLoaded) return false;
+
+        if (this.state.directionsDisplay != null) {
+            this.state.directionsDisplay.setDirections({ routes: [] });
+        }
+
+        let from = this.chooseFrom();
+        let target = this.chooseTarget();
+
+        if (defaultTarget) target = Object.assign({}, defaultTarget);
+        if ((isEmptyObject(from) || isEmptyObject(target))) {
+            console.log("Can't render router, missing origin or destination.");
+            return false;
+        }
+
+        this.state.directionsService.route({
+            origin: `${from.lat}, ${from.lng}`,
+            destination: `${target.lat}, ${target.lng}`,
+            waypoints: [],
+            optimizeWaypoints: true,
+            travelMode: 'DRIVING'
+        }, (response, status) => {
+            this.state.directionsDisplay.setDirections(response);
+            if (response.routes.length) {
+                this.setState({
+                    distance: response.routes[0].legs[0].distance.text,
+                    time: response.routes[0].legs[0].duration.text,
+                });
+            }
+        });
+    }
+
+    renderPaymentButton = () => {
+        return BUTTON_GROUP.map(btn => {
+            let cls = `${(this.props.selectedOption === btn.key) ?
+                'active' : ''} btn btn-outline-secondary`;
+
+            return (
+                <label className={cls} key={btn.key} >
+                    <input type="radio"
+                        value={btn.key}
+                        name="paymentOptions"
+                        autoComplete="off"
+                        onChange={this.paymentOptionChange}
+                        checked={this.props.selectedOption === btn.key} /> {btn.text}
+                </label>
+            )
+        })
     }
 
     renderStepOne = () => {
@@ -319,15 +498,15 @@ class Order extends Component {
                         defaultZoom={12}
                     >
                         <CurrentLocation
-                            lat={this.props.from.lat}
-                            lng={this.props.from.lng}
+                            lat={this.chooseFrom().lat}
+                            lng={this.chooseFrom().lng}
                         />
                         {
-                            (!isEmptyObject(this.props.target))
+                            (!isEmptyObject(this.chooseTarget()))
                             && (
                                 <TargetLocation
-                                    lat={this.props.target.lat}
-                                    lng={this.props.target.lng}
+                                    lat={this.chooseTarget().lat}
+                                    lng={this.chooseTarget().lng}
                                 />
                             )
                         }
@@ -341,10 +520,12 @@ class Order extends Component {
                                 placeholder={strings.fromLocation}
                                 onFocus={this.onFocus}
                                 onBlur={this.onBlur}
-                                activeClick={this.props.chosenLocationInput === "FROM" }
-                                defaultAddress={this.props.from.address}
+                                activeClick={this.props.chosenLocationInput === "FROM"}
+                                defaultAddress={this.chooseFrom().address}
                                 renderRoute={this.renderRoute}
-                                propsDispatch={this.props.changeCurrentLocation}
+                                propsDispatch={this.props.selectedTrip === 1
+                                    ? this.props.changeCurrentLocation :
+                                    this.changeSecondTripFrom}
                                 icon={props => <Icon icon={dotCircleO} />} />
                         </FormGroup>
                         <FormGroup className="es-destination">
@@ -353,10 +534,13 @@ class Order extends Component {
                                 placeholder={strings.targetLocation}
                                 onFocus={this.onFocus}
                                 onBlur={this.onBlur}
-                                activeClick={this.props.chosenLocationInput === "TARGET" }
-                                defaultAddress={(!isEmptyObject(this.props.target)) ? this.props.target.address : ""}
+                                activeClick={this.props.chosenLocationInput === "TARGET"}
+                                defaultAddress={!isEmptyObject(this.chooseTarget())
+                                    ? this.chooseTarget().address : ""}
                                 renderRoute={this.renderRoute}
-                                propsDispatch={this.props.changeTargetLocation}
+                                propsDispatch={this.props.selectedTrip === 1
+                                    ? this.props.changeTargetLocation :
+                                    this.changeSecondTripTarget}
                                 icon={props => <Icon icon={mapMarker} />} />
                         </FormGroup>
                     </div>
@@ -394,11 +578,10 @@ class Order extends Component {
         )
     }
 
-
     renderStepTwo = () => {
         let { from, target, selectedDirection } = this.props;
-
         let mapSrc = `https://www.google.com/maps/embed/v1/directions?key=${GOOGLE_API_KEY}&origin=${from.lat},${from.lng}&destination=${target.lat},${target.lng}&avoid=tolls|highways`;
+
         return (
            <Container>
                 <Row className="p15 pl0 pr0">
@@ -407,7 +590,7 @@ class Order extends Component {
                         <div className="es-order-info">
                             <h6 className="mb0">Kersti Kangro</h6>
                             <small className="mb0">
-                                {translateData(`${this.props.selectedOption} TRANSPORT`)}
+                                {translateData(`${selectedDirection} TRANSPORT`)}
                             </small>
                         </div>
                     </Col>
@@ -462,8 +645,9 @@ class Order extends Component {
                                 {
                                     this.state.isDatePickerOpen1 && (
                                         <DatePicker
+                                            selected={this.state.selectedDate1 }
+                                            minDate={ moment() }
                                             locale={window.navigator.userLanguage || window.navigator.language}
-                                            selected={this.state.startDate}
                                             onChange={this.handleDateChange1}
                                             withPortal
                                             inline />
@@ -473,7 +657,6 @@ class Order extends Component {
                                     this.state.isTimePickerOpen1 && (
                                         <DatePicker
                                             locale={window.navigator.userLanguage || window.navigator.language}
-                                            selected={this.state.startDate}
                                             onChange={this.handleTimeChange1}
                                             showTimeSelect
                                             showTimeSelectOnly
@@ -487,19 +670,23 @@ class Order extends Component {
                                 }
                             </CardBody>
                             <CardFooter>
-                                <h6>{ this.props.from.address } - { this.props.target.address }</h6>
-                                <small className="mb25">{strings.to}</small>
+                                <small className="mb5">{strings.from}</small>
+                                <h6>{ this.props.from.address }</h6>
+                                <small className="mb5">{strings.to}</small>
+                                <h6 className="mb25">{ this.props.target.address }</h6>
+                                
                                 <Row>
                                     <Col>
                                         <Button
                                             color="link"
-                                            onClick={() => this.props.nextStep(this.props.step - 1)}>
+                                            value={1}
+                                            onClick={this.onChangeButtonClick}>
                                             {strings.change}
                                         </Button>
                                     </Col>
                                     <Col>
-                                        <a href="/order" className="btn btn-link"
-                                            onClick={() => this.props.nextStep(this.props.step - 1)}>
+                                        <a href="/order"
+                                            className="btn btn-link">
                                             {strings.cancel}
                                         </a>
                                     </Col>
@@ -527,7 +714,8 @@ class Order extends Component {
                                         <Row>
                                             <Col className="mb10">
                                                 <button
-                                                    className="btn btn-secondary es-btn-picker"
+                                                    className={`btn btn-secondary es-btn-picker ${ !this.props.chosenTime1 ? 'disabled' : '' }`}
+                                                    disabled={!this.props.chosenTime1}
                                                     onClick={this.toggleTimepicker2}>
                                                     {strings.time}
                                                 </button>
@@ -541,8 +729,9 @@ class Order extends Component {
                                             this.state.isDatePickerOpen2 && (
                                                 <DatePicker
                                                     locale={window.navigator.userLanguage || window.navigator.language}
-                                                    selected={this.state.startDate}
+                                                    minDate={this.state.selectedDate1}
                                                     onChange={this.handleDateChange2}
+                                                    selected={this.state.selectedDate2}
                                                     withPortal
                                                     inline />
                                             )
@@ -551,7 +740,6 @@ class Order extends Component {
                                             this.state.isTimePickerOpen2 && (
                                                 <DatePicker
                                                     locale={window.navigator.userLanguage || window.navigator.language}
-                                                    selected={this.state.startDate}
                                                     onChange={this.handleTimeChange2}
                                                     showTimeSelect
                                                     showTimeSelectOnly
@@ -559,25 +747,33 @@ class Order extends Component {
                                                     timeFormat="HH.mm"
                                                     timeIntervals={5}
                                                     timeCaption={strings.timePickerCaption}
+                                                    minTime={this.getMinTime()}
+                                                    maxTime={this.getMaxTime()}
                                                     withPortal
                                                     inline />
                                             )
                                         }
                                     </CardBody>
                                     <CardFooter>
-                                        <h6>{this.props.target.address} - {this.props.from.address}</h6>
-                                        <small className="mb25">{strings.from}</small>
+                                        <small className="mb5">{strings.from}</small>
+                                        <h6>{ isEmptyObject(this.props.secondTrip.from) ?
+                                                this.props.target.address : 
+                                                this.props.secondTrip.from.address }</h6>
+                                        <small className="mb5">{strings.to}</small>
+                                        <h6 className="mb25">{ isEmptyObject(this.props.secondTrip.target) ?
+                                                this.props.from.address : 
+                                                this.props.secondTrip.target.address }</h6>
                                         <Row>
                                             <Col>
                                                 <Button
                                                     color="link"
-                                                    onClick={() => this.props.nextStep(this.props.step - 1)}>
+                                                    value={2}
+                                                    onClick={this.onChangeButtonClick}>
                                                     {strings.change}
                                                 </Button>
                                             </Col>
                                             <Col>
-                                                <a href="/order" className="btn btn-link"
-                                                    onClick={() => this.props.nextStep(this.props.step - 1)}>
+                                                <a href="/order" className="btn btn-link">
                                                     {strings.cancel}
                                                 </a>
                                             </Col>
@@ -596,45 +792,7 @@ class Order extends Component {
                                 (!(this.props.chosenDay1 && this.props.chosenTime1)) ||
                                 (!(this.props.chosenDay2 && this.props.chosenTime2) &&
                                 this.props.selectedDirection === "Roundtrip")}
-                            onClick={() => {
-                                this.setState({
-                                    isButtonLoading: !this.state.isButtonLoading
-                                });
-
-                                let params = {
-                                    "name": "Kersti Kangro",
-                                    "roundtrip": false,
-                                    "payment_option": this.props.selectedOption,
-                                    "direction_option": this.props.selectedDirection,
-                                    "current_location_name": this.props.from.address,
-                                    "current_location_lat": `${this.props.from.lat}`,
-                                    "current_location_lng": `${this.props.from.lng}`,
-                                    "target_location_name": this.props.target.address,
-                                    "target_location_lat": `${this.props.target.lat}`,
-                                    "target_location_lng": `${this.props.target.lng}`,
-                                    "day_chosen": this.props.chosenDay1,
-                                    "time_chosen": this.props.chosenTime1,
-                                    "day_chosen2": this.props.chosenDay2,
-                                    "time_chosen2": this.props.chosenTime2
-                                }
-                    
-                                if (params['direction_option'] !== "Roundtrip") {
-                                    delete params["day_chosen2"]
-                                    delete params["time_chosen2"]
-                                }
-
-                                submitOrder(params).then(response => {
-                                    this.setState({
-                                        isButtonLoading: !this.state.isButtonLoading
-                                    }, () => {
-                                        if (response.id) {
-                                            this.props.nextStep(this.props.step + 1);
-                                        } else {
-                                            alert("Something went wrong...");
-                                        }
-                                    });
-                                });
-                            }}>
+                            onClick={ this.onClickConfirmOrder }>
                             { ( this.state.isButtonLoading ? strings.confirming : strings.confirmOrder) }
                         </Button>
                     </Col>
@@ -706,6 +864,7 @@ Order.propTypes = {
         lng: PropTypes.number,
         address: PropTypes.string
     }),
+    selectedTrip: PropTypes.number.isRequired,
     step: PropTypes.number.isRequired,
     chosenLocationInput: PropTypes.string.isRequired,
     chosenDay1: PropTypes.string.isRequired,
@@ -720,6 +879,8 @@ const mapStateToProps = state => ({
     center: state.order.center,
     from: state.order.from,
     target: state.order.target,
+    selectedTrip: state.order.selectedTrip,
+    secondTrip: state.order.secondTrip,
     step: state.order.step,
     chosenDay1: state.order.chosenDay1,
     chosenDay2: state.order.chosenDay2,
@@ -732,10 +893,12 @@ export default connect(mapStateToProps, {
     togglePayment,
     toggleDirection,
     toggleMapClick,
+    switchTrip,
     nextStep,
     changeTargetLocation,
     changeCurrentLocation,
     changeMapCenter,
+    updateSecondTrip,
     changeDay1,
     changeDay2,
     changeTime1,

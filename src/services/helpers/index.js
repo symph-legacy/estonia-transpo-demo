@@ -47,7 +47,8 @@ export const classnames = (...args) => {
 };
 
 export const translateData = chosen => {
-    switch (chosen.toUpperCase()) {
+    let chosenUpper = chosen.toUpperCase();
+    switch (chosenUpper) {
         case "CHILD": return strings.child;
         case "REGULAR": return strings.regular;
         case "SUBSIDISED": return strings.subsidised;

@@ -3,7 +3,9 @@ import {
     CHANGE_MAP_CENTER,
     CHANGE_CURRENT_LOCATION,
     CHANGE_TARGET_LOCATION,
+    UPDATE_SECOND_TRIP,
     NEXT_STEP,
+    SWITCH_TRIP,
     TOGGLE_DIRECTION,
     CHANGE_DAY1,
     CHANGE_DAY2,
@@ -27,22 +29,17 @@ const initialState = {
         address: strings.estonia
     },
     target: {},
-    // from: {
-    //     lat: 10.304171,
-    //     lng: 123.891467,
-    //     address: "Symph Development Company"
-    // },
-    // target: {
-    //     lat: 10.3181,
-    //     lng: 123.9051,
-    //     address: "Ayala Center Cebu"
-    // },
+    secondTrip: {
+        from: {},
+        target: {}
+    },
     step: 1,
     chosenDay1: "",
     chosenDay2: "",
     chosenTime1: "",
     chosenTime2: "",
-    chosenLocationInput: "FROM"
+    chosenLocationInput: "FROM",
+    selectedTrip: 1
 }
 
 export default function (state = initialState, action) {
@@ -71,6 +68,16 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 target: action.payload
+            }
+        case UPDATE_SECOND_TRIP:
+            return {
+                ...state,
+                secondTrip: action.payload
+            }
+        case SWITCH_TRIP:
+            return {
+                ...state,
+                selectedTrip: action.payload
             }
         case NEXT_STEP:
             return {
