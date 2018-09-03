@@ -4,6 +4,8 @@ import Icon from 'react-icons-kit';
 import { search } from 'react-icons-kit/fa/search';
 import { InputGroup, InputGroupAddon, Input } from "reactstrap";
 
+import strings from '../../../../localisation';
+
 class SearchBar extends Component {
     render() {
         return (
@@ -13,7 +15,7 @@ class SearchBar extends Component {
                         <Icon icon={search} />
                     </div>
                 </InputGroupAddon>
-                <Input placeholder="Find a topic" />
+                <Input placeholder={strings.findATopic} />
             </InputGroup>
         );
     }

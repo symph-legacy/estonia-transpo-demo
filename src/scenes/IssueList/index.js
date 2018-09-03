@@ -13,7 +13,7 @@ import {
     Table
 } from "reactstrap";
 
-import { toProperCase } from "../../services/helpers";
+import { toProperCase, translateData } from "../../services/helpers";
 
 import { getIssues, removeIssueItem } from "./actions"
 
@@ -25,6 +25,7 @@ import { trash } from 'react-icons-kit/fa/trash';
 
 import "./styles.css";
 import moment from 'moment';
+import 'moment/locale/et';
 
 import strings from "../../localisation";
 
@@ -44,7 +45,7 @@ class IssueList extends Component {
             <td data-xs-label={strings.description}>{props.issue.description}</td>
             <td data-xs-label={strings.address}>{props.issue.address}</td>
             <td data-xs-label={strings.attachments}><img className='es-img-thumb' alt='attachment' src={props.issue.attachments} /></td>
-            <td data-xs-label={strings.status}>{props.issue.status}</td>
+            <td data-xs-label={strings.status}>{translateData(props.issue.status)}</td>
             <td>
                 <button
                     value

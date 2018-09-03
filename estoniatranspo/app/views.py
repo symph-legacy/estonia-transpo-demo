@@ -64,9 +64,13 @@ class RideOrderViewSet(viewsets.ModelViewSet):
 
         if r.direction_option.lower() == "roundtrip":
             time_chosen, time_chosen_end = get_begin_end_time(r.time_chosen2)
-            elem["target_location_name"] = r.current_location_name
-            elem["target_location_lat"] = r.current_location_lat
-            elem["target_location_lng"] = r.current_location_lng
+            location_name = r.second_target_location_name or r.current_location_name
+            location_lat = r.second_target_location_lat or r.current_location_lat
+            location_lng = r.second_target_location_lng or r.current_location_lng
+
+            elem["target_location_name"] = location_name
+            elem["target_location_lat"] = location_lat
+            elem["target_location_lng"] = location_lng
             elem["time_chosen"] = time_chosen
             elem["time_chosen_end"] = time_chosen_end
             xml = XML_PARAM.format(**elem)
@@ -98,10 +102,14 @@ class RideOrderViewSet(viewsets.ModelViewSet):
 
         if r.direction_option.lower() == "roundtrip":
             time_chosen, time_chosen_end = get_begin_end_time(r.time_chosen2)
+            location_name = r.second_target_location_name or r.current_location_name
+            location_lat = r.second_target_location_lat or r.current_location_lat
+            location_lng = r.second_target_location_lng or r.current_location_lng
+
             elem["task_id"] = r.second_trip_taskid
-            elem["target_location_name"] = r.current_location_name
-            elem["target_location_lat"] = r.current_location_lat
-            elem["target_location_lng"] = r.current_location_lng
+            elem["target_location_name"] = location_name
+            elem["target_location_lat"] = location_lat
+            elem["target_location_lng"] = location_lng
             elem["time_chosen"] = time_chosen
             elem["time_chosen_end"] = time_chosen_end
             xml = XML_UPDATE_PARAM.format(**elem)

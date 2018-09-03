@@ -60,12 +60,12 @@ export default class Card extends Component {
       <form className="clearfix" onSubmit={this.submit}>
         <div className="issue p-3 my-3">
             <h2>
-              <input type="text" placeholder={strings.issueDescription} name="description" onChange={this.change} value={this.state.description} />
+              <input type="text" placeholder={strings.issueDescription} name="description" onChange={this.change} value={this.state.description} required={true} />
             </h2>
             <div className="d-flex">
             <div>{strings.address}</div>
               <div className="ml-2 flex-fill">
-                <input type="text" placeholder={strings.addressOfTheIssue} name="address" onChange={this.change} value={this.state.address} />
+              <input type="text" placeholder={strings.addressOfTheIssue} name="address" onChange={this.change} value={this.state.address} required={true} />
               </div>
             </div>
           <div className="attachments mt-3 p-3">

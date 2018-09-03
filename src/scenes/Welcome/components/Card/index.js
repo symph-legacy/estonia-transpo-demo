@@ -38,11 +38,16 @@ class CardComponent extends Component {
                                 (this.state.showLess) ? truncate(this.props.info.description, 50)
                                     : this.props.info.description
                             )}
-                            <button className="btn btn-link"
-                                href="#"
-                                onClick={ () => this.setState({ showLess: !this.state.showLess }) }>
-                                {(this.state.showLess) ? strings.more : strings.less }
-                            </button>
+
+                            {
+                                (this.props.info.description.length >= 50) &&
+                                (<button className="btn btn-link"
+                                    href="#"
+                                    onClick={() => this.setState({ showLess: !this.state.showLess })}>
+                                    {(this.state.showLess) ? strings.more : strings.less}
+                                </button>)
+                            }
+                            
                         </p>
                     </div>
                 </CardBody>

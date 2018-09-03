@@ -7,6 +7,8 @@ import { trash } from 'react-icons-kit/fa/trash';
 
 import strings from "../../../localisation";
 
+import { translateData } from "../../../services/helpers"
+
 export default class Issues extends Component {
   state = {
     issues: []
@@ -72,7 +74,7 @@ export default class Issues extends Component {
                   <td>{issue.description}</td>
                   <td>{issue.address}</td>
                   <td>{issue.reporter}</td>
-                  <td>{issue.status}</td>
+                  <td>{translateData(issue.status)}</td>
                 </tr>
               ))}
             </tbody>

@@ -19,7 +19,10 @@ class RideOrderSerializer(serializers.HyperlinkedModelSerializer):
         model = RideOrder
         fields = ('id', 'name', 'payment_option', 'direction_option', 'first_trip_taskid', 'second_trip_taskid', 'day_chosen', 'time_chosen', 'day_chosen2', 'time_chosen2',
                   'roundtrip', 'current_location_lat', 'current_location_lng', 'current_location_name',
-                  'target_location_name', 'target_location_lat', 'target_location_lng', 'status', 'created', 'updated')
+                  'target_location_name', 'target_location_lat', 'target_location_lng',
+                  'second_current_location_name', 'second_current_location_lng', 'second_current_location_lat',
+                  'second_target_location_name', 'second_target_location_lat', 'second_target_location_lng',
+                  'status', 'created', 'updated')
 
 class IssueSerializer(serializers.HyperlinkedModelSerializer):
     # status = serializers.CharField(source='get_status_display')

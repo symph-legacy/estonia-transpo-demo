@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { PropTypes  } from "prop-types";
 
-
 import { NAV_BRAND } from "./strings";
 import Navigation from "../../components/Navigation";
 import Tab from "../../components/Tab";
@@ -13,12 +12,9 @@ import {
     Table
 } from "reactstrap";
 
-import { toProperCase } from "../../services/helpers";
-
+import { translateData } from "../../services/helpers";
 import { getOrders, removeOrderItem } from "./actions"
-
 import { getAllOrders, deleteOrder } from '../../services/api'
-
 
 import Icon from 'react-icons-kit';
 import { trash } from 'react-icons-kit/fa/trash';
@@ -52,6 +48,28 @@ class OrderList extends Component {
                     {props.order.target_location_name}
                 </a>
             </td>
+            
+            <td data-xs-label={strings.from}>
+                {
+                    props.order.direction_option === "Roundtrip" ?
+                        (<a href={`https://www.google.com/maps/?q=${props.order.second_current_location_name}`}
+                            target="_blank">
+                            {props.order.second_current_location_name}
+                        </a>)
+                        : "-"
+                }
+            </td>
+            <td data-xs-label={strings.to}>
+                {
+                    props.order.direction_option === "Roundtrip" ?
+                        (<a href={`https://www.google.com/maps/?q=${props.order.second_target_location_name}`}
+                            target="_blank">
+                            {props.order.second_target_location_name}
+                        </a>)
+                        : "-"
+                }
+            </td>
+
             <td data-xs-label={strings.dateTime}>
                 <p className='mb0'>{props.order.day_chosen}</p>
                 <p className='mb0'>{props.order.time_chosen}</p>
@@ -64,9 +82,9 @@ class OrderList extends Component {
                     </React.Fragment>
                 )}
             </td>
-            <td data-xs-label={strings.paymentOption}>{ toProperCase(props.order.payment_option) || '-' }</td>
-            <td data-xs-label={strings.rideType}>{ toProperCase(props.order.direction_option) || '-' }</td>
-            <td data-xs-label={strings.status}>{ toProperCase(props.order.status) }</td>
+            <td data-xs-label={strings.paymentOption}>{translateData(props.order.payment_option) || '-' }</td>
+            <td data-xs-label={strings.rideType}>{translateData(props.order.direction_option) || '-' }</td>
+            <td data-xs-label={strings.status}>{translateData(props.order.status) }</td>
             <td>
                 <button
                     value
@@ -103,6 +121,8 @@ class OrderList extends Component {
                                 <thead>
                                     <tr>
                                         <th>#</th>
+                                        <th>{strings.from}</th>
+                                        <th>{strings.to}</th>
                                         <th>{strings.from}</th>
                                         <th>{strings.to}</th>
                                         <th>{strings.dateTime}</th>

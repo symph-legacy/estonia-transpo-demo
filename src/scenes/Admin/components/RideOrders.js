@@ -11,6 +11,8 @@ import { Link } from 'react-router-dom';
 import { getAllOrders, deleteOrder } from "../../../services/api";
 import strings from "../../../localisation";
 
+import { translateData } from "../../../services/helpers"
+
 export default class RideOrders extends Component {
   constructor(props) {
     super(props);
@@ -87,8 +89,8 @@ export default class RideOrders extends Component {
           </React.Fragment>
         )}
       </td>
-      <td>{props.order.direction_option}</td>
-      <td>{props.order.status}</td>
+      <td>{translateData(props.order.direction_option)}</td>
+      <td>{translateData(props.order.status)}</td>
     </tr>
   )
 

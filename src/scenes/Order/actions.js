@@ -9,7 +9,9 @@ import {
     CHANGE_DAY2,
     CHANGE_TIME1,
     CHANGE_TIME2,
-    TOGGLE_MAP_CLICK
+    TOGGLE_MAP_CLICK,
+    UPDATE_SECOND_TRIP,
+    SWITCH_TRIP
  } from "./strings";
 
 
@@ -45,6 +47,20 @@ export const changeTargetLocation = (latlng) => dispatch => {
     dispatch({
         type: CHANGE_TARGET_LOCATION,
         payload: latlng
+    });
+}
+
+export const updateSecondTrip = (secondTrip) => dispatch => {
+    dispatch({
+        type: UPDATE_SECOND_TRIP,
+        payload: secondTrip
+    });
+}
+
+export const switchTrip = tripNo => dispatch => {
+    dispatch({
+        type: SWITCH_TRIP,
+        payload: tripNo
     });
 }
 

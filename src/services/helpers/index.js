@@ -1,3 +1,5 @@
+import strings from "../../localisation";
+
 const isObject = val => {
     return typeof val === 'object' && val !== null;
 };
@@ -43,3 +45,19 @@ export const classnames = (...args) => {
 
     return classes.join(' ');
 };
+
+export const translateData = chosen => {
+    let chosenUpper = chosen.toUpperCase();
+    switch (chosenUpper) {
+        case "CHILD": return strings.child;
+        case "REGULAR": return strings.regular;
+        case "SUBSIDISED": return strings.subsidised;
+        case "ROUNDTRIP": return toProperCase(strings.roundTrip);
+        case "ONEWAY": return toProperCase(strings.oneWay);
+        case "DIRECTED": return toProperCase(strings.roundTrip);
+        case "NEW": return toProperCase(strings.new);
+        case "CHILD TRANSPORT": return strings.childTransport;
+        case "SUBSIDISED TRANSPORT": return strings.subsidisedTransport;
+        case "REGULAR TRANSPORT": return strings.regularTransport;
+    }
+}

@@ -8,12 +8,12 @@ import strings from "../../localisation";
 
 export default class Issue extends Component {
   state = {
-    currentDate: moment().format('YYYY-MM-DD'),
+    currentDate: moment().format('DD.MM.YYYY'),
     issues: [],
     newIssue: false
   }
   componentDidMount() {
-    document.title = 'Report an Issue';
+    document.title = strings.reportAnIssue;
     fetch('/api/issues/')
     .then(response => response.json())
     .then(issues => {
@@ -42,7 +42,7 @@ export default class Issue extends Component {
   render() {
     return (
       <div>
-        <Navigation brand="Issue" />
+        <Navigation brand={strings.issue} />
         <div className="issues-list m-3">
           <h1>{strings.issue} {this.state.currentDate}</h1>
           {this.state.issues.map(issue => (

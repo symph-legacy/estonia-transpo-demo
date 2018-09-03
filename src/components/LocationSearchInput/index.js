@@ -15,6 +15,7 @@ import {
     InputGroup,
     InputGroupAddon
 } from "reactstrap";
+import strings from '../../localisation';
 
 class LocationSearchInput extends React.Component {
     constructor(props) {
@@ -160,7 +161,7 @@ class LocationSearchInput extends React.Component {
                     }}
                 </PlacesAutocomplete>
                 {errorMessage.length > 0 && (
-                    <div className="es-error-message">Place not found.</div>
+                    <div className="es-error-message">{strings.placeNotFound}</div>
                 )}
             </div>
         );
