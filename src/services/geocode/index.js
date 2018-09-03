@@ -1,6 +1,9 @@
 import querystring from 'querystring';
+// import dotenv from 'dotenv';
 
-const GOOGLE_API_KEY = 'AIzaSyDbESyZ10IaxgVmjcMBDN2WlGzSEu9vzMM';
+// dotenv.config();
+
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
 const GMAP_BASE_URL = 'https://maps.googleapis.com'
 
 export const getAddressByLatLng = latlng => {
