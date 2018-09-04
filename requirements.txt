@@ -16,6 +16,7 @@ lxml==4.2.4
 mccabe==0.6.1
 psycopg2==2.7.5
 pylint==1.9.2
+python-dotenv==0.9.1
 pytz==2018.5
 requests==2.19.1
 simplejson==3.16.0
