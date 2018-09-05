@@ -60,7 +60,8 @@ import {
 import "./styles.css";
 
 import strings from "../../localisation";
-import { GOOGLE_API_KEY } from "../../constants";
+
+const GOOGLE_API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
 
 class Order extends Component {
 
