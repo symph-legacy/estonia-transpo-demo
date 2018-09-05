@@ -19,7 +19,6 @@
   DB_USERNAME=
   DB_PASSWORD=
   SECRET_KEY=
-  GOOGLE_API_KEY=
 ```
 4. Create a virtual environment
 > `virtualenv venv`
