@@ -2,7 +2,8 @@
 
 
 **Requirement/s:**
-[Create-react-app](https://github.com/facebook/create-react-app#creating-an-app) - build, transpile, compile our javascripts and assets.
+1. [NodeJS](https://nodejs.org/en/download/)
+2. [Create-react-app](https://github.com/facebook/create-react-app#creating-an-app)
 
 ### Running on local machine
 
@@ -18,7 +19,6 @@
   DB_USERNAME=
   DB_PASSWORD=
   SECRET_KEY=
-  GOOGLE_API_KEY=
 ```
 4. Create a virtual environment
 > `virtualenv venv`
@@ -30,6 +30,8 @@
 > `python manage.py migrate`
 8. Run Server
 > `python manage.py runserver`
+9. Install node js module dependencies  
+> `npm install`
 9. Run the react-app for development
 > `npm run start`
 

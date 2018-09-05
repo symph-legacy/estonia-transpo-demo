@@ -60,11 +60,7 @@ import {
 import "./styles.css";
 
 import strings from "../../localisation";
-
-// import dotenv from 'dotenv';
-// dotenv.config();
-
-const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
+import { GOOGLE_API_KEY } from "../../constants";
 
 class Order extends Component {
 
