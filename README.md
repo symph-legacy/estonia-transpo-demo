@@ -19,6 +19,18 @@
   DB_USERNAME=
   DB_PASSWORD=
   SECRET_KEY=
+
+  DB_NAME=estonia
+  DB_USERNAME=symph
+  DB_PASSWORD=
+  HOST=
+  HOSTNAME=
+  ENV=PRODUCTION
+  SECRET_KEY=
+  SENTRY_DSN=
+
+  REACT_APP_GOOGLE_API_KEY=
+
 ```
 4. Create a virtual environment
 > `virtualenv venv`
