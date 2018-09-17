@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import raven
 from dotenv import load_dotenv
 
 
@@ -159,20 +160,80 @@ STATICFILES_DIRS = [
 
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(message)s',
+        },
+        'simple': {
+            'format': '[%(asctime)s] %(message)s'
+        },
+    },
+    'root': {
+        'level': 'DEBUG',
+        'handlers': ['console'],
+    },
     'handlers': {
+        'null': {
+            'level': 'DEBUG',
+            'class': 'logging.NullHandler',
+        },
         'console': {
+            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
+            'formatter': 'simple'
         },
     },
     'loggers': {
+
+        # Django loggers
+        'django': {
+            'handlers': ['null'],
+            'propagate': True,
+            'level': 'INFO',
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'django.db.backends': {
+            'level': 'WARNING',
+            'propagate': True,
+        },
+        'django.security.DisallowedHost': {
+            'handlers': ['null'],
+            'propagate': False,
+        },
+
+        # Third party
+        'raven': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            'propagate': False,
+        },
         'django.request': {
             'handlers': ['console'],
             'level': 'DEBUG',  # change debug level as appropiate
             'propagate': False,
         },
-    },
+    }
 }
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+# Sentry
+# ======
+
+if os.environ.get('SENTRY_DSN', None):
+    RAVEN_CONFIG = {
+        'dsn': os.environ.get('SENTRY_DSN', None)
+    }
+    LOGGING['handlers']['sentry'] = {
+        'level': 'DEBUG',
+        'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+    }
+    LOGGING['root']['handlers'].append('sentry')
+    INSTALLED_APPS.append('raven.contrib.django.raven_compat')
