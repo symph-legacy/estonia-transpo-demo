@@ -48,7 +48,7 @@ class RideOrderViewSet(viewsets.ModelViewSet):
             "name": r.name,
             "timestamp": datetime.utcnow(),
             "driver": "aarelaponin@gmail.com",
-            "target_location_name": r.target_location_name,
+            "target_location_name": r.target_location_name.encode('utf-8'),
             "target_location_lat": r.target_location_lat,
             "target_location_lng": r.target_location_lng,
             "time_chosen": time_chosen,
@@ -68,7 +68,7 @@ class RideOrderViewSet(viewsets.ModelViewSet):
             location_lat = r.second_target_location_lat or r.current_location_lat
             location_lng = r.second_target_location_lng or r.current_location_lng
 
-            elem["target_location_name"] = location_name
+            elem["target_location_name"] = location_name.encode('utf-8')
             elem["target_location_lat"] = location_lat
             elem["target_location_lng"] = location_lng
             elem["time_chosen"] = time_chosen

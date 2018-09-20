@@ -16,7 +16,8 @@ class EcoFleetAPI():
 
     def get_task_id(self):
         task_id = 0
-        if self.result is not None:
+        if self.result is not None and \
+            self.result.find('response/tasks/task/id'):
             task_id = self.result.find('response/tasks/task/id').text
 
         return task_id
