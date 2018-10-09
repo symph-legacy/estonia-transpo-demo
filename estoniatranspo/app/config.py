@@ -2,8 +2,8 @@ ECOFLEET_BASE_URL = "https://app.ecofleet.com"
 ECOFLEET_KEY = "KH-7cd18a48-89be-49d5"
 
 
-ECOFLEET_ADD_TASK_ENDPOINT = "{base}/seeme/Api/Tasks/addXml?xml={xml}&version={v}&key={key}"
-ECOFLEET_UPDATE_TASK_ENDPOINT = "{base}/seeme/Api/Tasks/updateAsXml?xml={xml}&version={v}&key={key}"
+ECOFLEET_ADD_TASK_ENDPOINT = "{base}/seeme/Api/Tasks/addXml?version={v}&key={key}"
+ECOFLEET_UPDATE_TASK_ENDPOINT = "{base}/seeme/Api/Tasks/updateAsXml?version={v}&key={key}"
 
 XML_PARAM = """
     <?xml version="1.0" encoding="utf-8"?>
