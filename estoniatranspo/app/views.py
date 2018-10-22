@@ -45,7 +45,7 @@ class RideOrderViewSet(viewsets.ModelViewSet):
         time_chosen, time_chosen_end = get_begin_end_time(r.time_chosen)
         elem = {
             "order_id": r.id,
-            "name": r.name,
+            "name": r.name.encode('utf-8'),
             "timestamp": datetime.utcnow(),
             "driver": "aarelaponin@gmail.com",
             "target_location_name": r.target_location_name.encode('utf-8'),
@@ -86,7 +86,7 @@ class RideOrderViewSet(viewsets.ModelViewSet):
         elem = {
             "task_id": r.first_trip_taskid,
             "order_id": r.id,
-            "name": r.name,
+            "name": r.name.encode('utf-8'),
             "timestamp": datetime.utcnow(),
             "driver": "aarelaponin@gmail.com",
             "target_location_name": r.target_location_name.encode('utf-8'),
