@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 from rest_framework.routers import DefaultRouter
 from estoniatranspo.app import views
@@ -35,5 +36,7 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^api/ride_order/latest', views.LatestRideOrderView.as_view()),
     # url(r'^django/', admin.site.urls),
+    url(r'^login/$', auth_views.login),
+    url(r'^admin/.*$', views.ProtectedTemplateView.as_view(template_name='index.html')),
     url('.*', TemplateView.as_view(template_name='index.html'))
 ]

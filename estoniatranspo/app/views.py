@@ -5,8 +5,10 @@ import json
 import requests
 
 from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User, Group
 from django.core import serializers
+from django.views.generic import TemplateView
 
 from estoniatranspo.app.serializers import UserSerializer, GroupSerializer, RideOrderSerializer, IssueSerializer
 from rest_framework import viewsets
@@ -147,3 +149,7 @@ class LatestRideOrderView(APIView):
             print(e)
         
         return Response(data)
+
+
+class ProtectedTemplateView(LoginRequiredMixin, TemplateView):
+    pass
