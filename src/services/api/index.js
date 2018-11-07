@@ -2,24 +2,29 @@ const BASE_URL = '/';
 
 
 export const submitOrder = params => {
+    let csrftoken = document.head.querySelector("[name='csrf-token']").content;
+    let headers = new Headers();
+    headers.append('X-CSRFToken', csrftoken);
+    headers.append('Content-Type', 'application/json; charset=utf-8');
     return fetch(
         `${BASE_URL}api/ride_orders/`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-            },
+            headers: headers,
             body: JSON.stringify(params)
         })
         .then((res) => res.json());
 }
 
 export const updateOrder = params => {
+    let csrftoken = document.head.querySelector("[name='csrf-token']").content;
+    let headers = new Headers();
+    headers.append('X-CSRFToken', csrftoken);
+    headers.append('Content-Type', 'application/json; charset=utf-8');
+
     return fetch(
         `${BASE_URL}api/ride_orders/${params.id}`, {
             method: "PUT",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-            },
+            headers: headers,
             body: JSON.stringify(params)
         })
         .then((res) => res.json());

@@ -36,6 +36,7 @@ export default class Issue extends Component {
   }
   handleSubmit = (e) => {
     e.preventDefault();
+    let csrftoken = document.head.querySelector("[name='csrf-token']").content;
     let payload = {
       description: this.state.description,
       address: this.state.address,
@@ -46,7 +47,8 @@ export default class Issue extends Component {
       method: this.state.issueId ? 'put' : 'post',
       mode: 'cors',
       headers: {
-        'Content-Type': 'application/json; charset=utf-8'
+        'Content-Type': 'application/json; charset=utf-8',
+        'X-CSRFToken': csrftoken
       },
       body: JSON.stringify(payload)
     })
