@@ -21,7 +21,7 @@ from models import RideOrder, Issue
 from datetime import datetime, timedelta
 from config import XML_PARAM, XML_UPDATE_PARAM
 
-from helpers import get_begin_end_time
+from helpers import get_begin_end_time, CustomIsAuthenticatedOrReadOnly
 from api import EcoFleetAPI
 
 
@@ -42,6 +42,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 class RideOrderViewSet(viewsets.ModelViewSet):
     queryset = RideOrder.objects.all()
     serializer_class = RideOrderSerializer
+    permission_classes = (CustomIsAuthenticatedOrReadOnly,)
 
     def perform_create(self, serializer):
         r = serializer.save()
@@ -119,9 +120,11 @@ class RideOrderViewSet(viewsets.ModelViewSet):
 
             ecofleet.update_task(xml)
 
+
 class IssueViewSet(viewsets.ModelViewSet):
     queryset = Issue.objects.all().order_by('-created')
     serializer_class = IssueSerializer
+    permission_classes = (CustomIsAuthenticatedOrReadOnly,)
 
     def pre_save(self, obj):
         obj.attachments = self.request.FILES.get('file')
