@@ -7,8 +7,9 @@ import requests
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User, Group
+from django.contrib.auth import logout as auth_logout
 from django.core import serializers
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
 
 from estoniatranspo.app.serializers import UserSerializer, GroupSerializer, RideOrderSerializer, IssueSerializer
 from rest_framework import viewsets
@@ -153,3 +154,13 @@ class LatestRideOrderView(APIView):
 
 class ProtectedTemplateView(LoginRequiredMixin, TemplateView):
     pass
+
+class LogoutView(RedirectView):
+    """
+    Provides users the ability to logout
+    """
+    url = '/login/'
+
+    def get(self, request, *args, **kwargs):
+        auth_logout(request)
+        return super(LogoutView, self).get(request, *args, **kwargs)

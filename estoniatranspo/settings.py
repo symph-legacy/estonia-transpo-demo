@@ -72,6 +72,8 @@ MIDDLEWARE = [
     'request_logging.middleware.LoggingMiddleware'
 ]
 
+LOGIN_REDIRECT_URL = "/"
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
