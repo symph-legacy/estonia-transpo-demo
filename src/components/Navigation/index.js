@@ -51,7 +51,10 @@ class Navigation extends Component {
               <Link className="nav-link" to="/issue">{strings.issue}</Link>
             </NavItem>
             <NavItem>
-              <Link className="nav-link" to="/orders">{strings.history}</Link>
+              <a className="nav-link" href="/orders">{strings.history}</a>
+            </NavItem>
+            <NavItem className="ml15">
+              <a className="nav-link" href="/logout">{strings.logout}</a>
             </NavItem>
           </Nav>
         </Collapse>

@@ -38,6 +38,8 @@ urlpatterns = [
     # url(r'^django/', admin.site.urls),
     url(r'^logout/?$', views.LogoutView.as_view()),
     url(r'^login/$', auth_views.login),
-    # url(r'^admin.*$', views.ProtectedTemplateView.as_view(template_name='index.html')),
-    url('.*', views.ProtectedTemplateView.as_view(template_name='index.html'))
+    url(r'^admin.*$', views.ProtectedTemplateView.as_view(template_name='index.html')),
+    url(r'^orders/?$', views.ProtectedTemplateView.as_view(template_name='index.html')),
+    url(r'^issues/?$', views.ProtectedTemplateView.as_view(template_name='index.html')),
+    url('.*', TemplateView.as_view(template_name='index.html'))
 ]

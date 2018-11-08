@@ -83,7 +83,8 @@ let strings = new LocalizedStrings({
         orderReceived: 'Your order is well received',
         confirmationWillReceive: 'Confirmation will arrive to your mail',
         placeNotFound: 'Place not found.',
-        users: 'Users'
+        users: 'Users',
+        logout: 'Logout'
     },
     et: {
         welcome: "Tere tulemast!",
@@ -167,7 +168,8 @@ let strings = new LocalizedStrings({
         successfullyCreatedANewRideOrder: 'Uus tellimus loodud',
         orderReceived: 'Tellimus kätte saadud',
         confirmationWillReceive: 'Kinnitus saadetud e-postile',
-        placeNotFound: 'Kohta ei leitud'
+        placeNotFound: 'Kohta ei leitud',
+        logout: 'Logi välja'
     }
 });
 
