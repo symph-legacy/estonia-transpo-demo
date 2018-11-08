@@ -82,7 +82,8 @@ let strings = new LocalizedStrings({
         successfullyCreatedANewRideOrder: 'Successfully created a new ride order.',
         orderReceived: 'Your order is well received',
         confirmationWillReceive: 'Confirmation will arrive to your mail',
-        placeNotFound: 'Place not found.'
+        placeNotFound: 'Place not found.',
+        users: 'Users'
     },
     et: {
         welcome: "Tere tulemast!",

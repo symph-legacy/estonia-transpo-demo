@@ -72,6 +72,12 @@ MIDDLEWARE = [
     'request_logging.middleware.LoggingMiddleware'
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
+}
+
 # CORS configuration
 if DEBUG:
     CORS_ORIGIN_ALLOW_ALL = True

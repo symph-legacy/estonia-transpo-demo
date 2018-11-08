@@ -9,6 +9,7 @@ import {
 import { Icon } from 'react-icons-kit';
 import { home } from 'react-icons-kit/fa/home';
 import { copy } from 'react-icons-kit/fa/copy';
+import { users } from 'react-icons-kit/fa/users';
 import { NavLink, Route, Redirect } from 'react-router-dom';
 import SearchBar from './components/SearchBar';
 import RideOrders from './components/RideOrders';
@@ -58,6 +59,12 @@ class Admin extends Component {
                   <NavLink className="nav-link d-flex" to={`${this.props.match.url}/issues`}>
                     <Icon className="mr-3" icon={copy} />
                     {strings.issues}
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink className="nav-link d-flex" to={`${this.props.match.url}/users`}>
+                    <Icon className="mr-3" icon={users} />
+                    {strings.users}
                   </NavLink>
                 </NavItem>
               </Nav>
