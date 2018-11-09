@@ -1,12 +1,50 @@
 from django.contrib.auth.models import User, Group
-from models import RideOrder, Issue
+from django.contrib.auth.hashers import make_password
+from models import RideOrder, Issue, UserProfile
 from rest_framework import serializers
 
 
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        read_only_fields = ('created_at', 'updated_at',)
+        exclude = ('user',)
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    profile = UserProfileSerializer(required=False)
+    password = serializers.CharField(write_only=True, required=False)
     class Meta:
         model = User
-        fields = ('url', 'username', 'email', 'groups')
+        depth = 1
+        fields = ('url', 'id', 'username', 'password', 'first_name', 'last_name',
+                  'email', 'profile')
+
+    def validate_password(self, value):
+        return make_password(value)
+
+    def create(self, validated_data):
+        profile_data = validated_data.pop('profile')
+        user = User.objects.create(**validated_data)
+        UserProfile.objects.create(user=user, **profile_data)
+        return user
+
+
+    def update(self, instance, validated_data):
+        profile_data = validated_data.pop('profile')
+
+        # Update User data
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.email = validated_data.get('email', instance.email)
+        instance.password = validated_data.get('password', instance.password)
+
+        try:
+            instance.profile.role = profile_data.get('role', instance.profile.role)
+            instance.save()
+        except User.profile.RelatedObjectDoesNotExist:
+            UserProfile.objects.create(user=instance, **profile_data)
+
+        return instance
 
 class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

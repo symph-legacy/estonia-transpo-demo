@@ -10,6 +10,7 @@ import { Icon } from 'react-icons-kit';
 import { home } from 'react-icons-kit/fa/home';
 import { copy } from 'react-icons-kit/fa/copy';
 import { users } from 'react-icons-kit/fa/users';
+import { signOut } from 'react-icons-kit/fa/signOut';
 import { NavLink, Route, Redirect } from 'react-router-dom';
 import SearchBar from './components/SearchBar';
 import RideOrders from './components/RideOrders';
@@ -66,6 +67,12 @@ class Admin extends Component {
                     <Icon className="mr-3" icon={users} />
                     {strings.users}
                   </NavLink>
+                </NavItem>
+                <NavItem className="ml-auto">
+                  <a className="nav-link d-flex" href="/logout">
+                    <Icon className="mr5" icon={signOut} />
+                    {strings.logout}
+                  </a>
                 </NavItem>
               </Nav>
             </Col>

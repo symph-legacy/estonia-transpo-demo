@@ -15,8 +15,17 @@ def get_begin_end_time(begin):
 
 class CustomIsAuthenticatedOrReadOnly(IsAuthenticatedOrReadOnly):
     def has_permission(self, request, view):
-        if (request.method in ['POST'] or
+        if (request.method in ['POST', 'DELETE'] or
             request.user and
             request.user.is_authenticated()):
             return True
         return False
+
+class IsCustomReadOrWriteOnly(IsAuthenticatedOrReadOnly):
+    def has_permission(self, request, view):
+        if (request.method in ['GET', 'POST'] or
+            request.user and
+            request.user.is_authenticated()):
+            return True
+        return False
+

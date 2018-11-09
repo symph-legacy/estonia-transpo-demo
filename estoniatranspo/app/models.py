@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib.postgres.fields import JSONField
+from django.contrib.auth.models import User
 from django.db import models
 
 # Ride Order
@@ -67,5 +68,9 @@ class Issue(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-class Profile(models.Model):
-    pass
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, related_name="profile", on_delete=models.CASCADE)
+    role = models.CharField(max_length=30, choices=(
+        ('Transportation Officer', 'Transportation Officer'),
+        ('Financial Controller', 'Financial Controller')
+    ))

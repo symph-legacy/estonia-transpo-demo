@@ -11,17 +11,24 @@ from django.contrib.auth import logout as auth_logout
 from django.core import serializers
 from django.views.generic import TemplateView, RedirectView
 
-from estoniatranspo.app.serializers import UserSerializer, GroupSerializer, RideOrderSerializer, IssueSerializer
-from rest_framework import viewsets
+from estoniatranspo.app.serializers import (
+    UserSerializer,
+    GroupSerializer,
+    RideOrderSerializer,
+    IssueSerializer
+)
+from rest_framework import viewsets, status, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from lxml import etree
-from models import RideOrder, Issue
+from models import RideOrder, Issue, UserProfile
 from datetime import datetime, timedelta
 from config import XML_PARAM, XML_UPDATE_PARAM
 
-from helpers import get_begin_end_time, CustomIsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.authentication import BasicAuthentication, TokenAuthentication
+from helpers import get_begin_end_time, CustomIsAuthenticatedOrReadOnly, IsCustomReadOrWriteOnly
 from api import EcoFleetAPI
 
 
@@ -31,9 +38,13 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
+    permission_classes = (CustomIsAuthenticatedOrReadOnly,)
+    authentication_classes = (BasicAuthentication,)
+
 
 class GroupViewSet(viewsets.ModelViewSet):
     """
+
     API endpoint that allows groups to be viewed or edited.
     """
     queryset = Group.objects.all()
@@ -124,7 +135,7 @@ class RideOrderViewSet(viewsets.ModelViewSet):
 class IssueViewSet(viewsets.ModelViewSet):
     queryset = Issue.objects.all().order_by('-created')
     serializer_class = IssueSerializer
-    permission_classes = (CustomIsAuthenticatedOrReadOnly,)
+    permission_classes = (IsCustomReadOrWriteOnly,)
 
     def pre_save(self, obj):
         obj.attachments = self.request.FILES.get('file')
