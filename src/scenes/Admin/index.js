@@ -15,12 +15,14 @@ import { NavLink, Route, Redirect } from 'react-router-dom';
 import SearchBar from './components/SearchBar';
 import RideOrders from './components/RideOrders';
 import Issues from './components/Issues';
+import UserList from './components/UserList';
 import RideOrder from './components/RideOrder';
 import Issue from './components/Issue';
 import './Admin.css';
 import logo from './logo.png';
 
 import strings from "../../localisation";
+import UserForm from './components/UserForm';
 
 class Admin extends Component {
   componentDidMount() {
@@ -84,8 +86,11 @@ class Admin extends Component {
               )} />
               <Route exact path={`${this.props.match.url}/ride_orders`} component={RideOrders} />
               <Route exact path={`${this.props.match.url}/issues`} component={Issues} />
+              <Route exact path={`${this.props.match.url}/users`} component={UserList} />
+
               <Route path={`${this.props.match.url}/ride_orders/:orderId`} component={RideOrder} />
               <Route path={`${this.props.match.url}/issues/:issueId`} component={Issue} />
+              <Route path={`${this.props.match.url}/users/:userId`} component={UserForm} />
             </Col>
           </Row>
         </Container>

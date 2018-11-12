@@ -40,6 +40,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
         try:
             instance.profile.role = profile_data.get('role', instance.profile.role)
+            instance.profile.save()
             instance.save()
         except User.profile.RelatedObjectDoesNotExist:
             UserProfile.objects.create(user=instance, **profile_data)

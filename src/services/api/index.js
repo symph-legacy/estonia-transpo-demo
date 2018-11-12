@@ -74,3 +74,33 @@ export const getLatestOrder = () => {
 export const getOrderById = id => {
     return fetch(`${BASE_URL}api/ride_orders/${id}`).then((res) => res.json());
 }
+
+export const getAllUsers = () => fetch(`${BASE_URL}api/users/`).then((res) => res.json());
+export const getUserById = id => fetch(`${BASE_URL}api/users/${id}`).then((res) => res.json());
+export const saveUser = params => {
+    let csrftoken = document.head.querySelector("[name='csrf-token']").content;
+    let headers = new Headers();
+    headers.append('X-CSRFToken', csrftoken);
+    headers.append('Content-Type', 'application/json; charset=utf-8');
+
+    return fetch(
+        `${BASE_URL}api/users/${params.id || ''}`, {
+            method: `${params.id ? 'PUT' : 'POST'}`,
+            headers: headers,
+            body: JSON.stringify(params)
+        });
+}
+
+export const deleteUser = id => {
+    let csrftoken = document.head.querySelector("[name='csrf-token']").content;
+    let headers = new Headers();
+    headers.append('X-CSRFToken', csrftoken);
+    headers.append('Content-Type', "application/x-www-form-urlencoded");
+
+    return fetch(
+        `${BASE_URL}api/users/${id}/`, {
+            method: "DELETE",
+            headers: headers,
+            credentials: 'include'
+        });
+}
