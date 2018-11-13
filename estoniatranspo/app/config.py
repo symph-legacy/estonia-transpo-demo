@@ -9,7 +9,7 @@ XML_PARAM = """
     <?xml version="1.0" encoding="utf-8"?>
     <task>
         <externalId>{order_id}</externalId>
-        <name>{name}</name>
+        <name></name>
         <timestamp>{timestamp}</timestamp>
         <driver>{driver}</driver>
         <location>
@@ -20,6 +20,7 @@ XML_PARAM = """
         <description>{name} {target_location_name}</description>
         <timewindowbegin>{time_chosen}</timewindowbegin>
         <timewindowend>{time_chosen_end}</timewindowend>
+        <customerName>{name}</customerName>
     </task>"""
 
 XML_UPDATE_PARAM = """
@@ -27,7 +28,7 @@ XML_UPDATE_PARAM = """
     <task>
         <id>{task_id}</id>
         <externalId>{order_id}</externalId>
-        <name>{name}</name>
+        <name></name>
         <timestamp>{timestamp}</timestamp>
         <driver>{driver}</driver>
         <location>
@@ -38,4 +39,5 @@ XML_UPDATE_PARAM = """
         <description>{name} {target_location_name}</description>
         <timewindowbegin>{time_chosen}</timewindowbegin>
         <timewindowend>{time_chosen_end}</timewindowend>
+        <customerName>{name}</customerName>
     </task>"""
