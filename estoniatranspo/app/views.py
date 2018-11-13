@@ -60,7 +60,7 @@ class RideOrderViewSet(viewsets.ModelViewSet):
         elem = {
             "order_id": r.id,
             "name": r.name.encode('utf-8'),
-            "timestamp": datetime.utcnow(),
+            "timestamp": (datetime.utcnow() + timedelta(hours=2)),
             "driver": "aarelaponin@gmail.com",
             "target_location_name": r.target_location_name.encode('utf-8'),
             "target_location_lat": r.target_location_lat,
@@ -101,7 +101,7 @@ class RideOrderViewSet(viewsets.ModelViewSet):
             "task_id": r.first_trip_taskid,
             "order_id": r.id,
             "name": r.name.encode('utf-8'),
-            "timestamp": datetime.utcnow(),
+            "timestamp": (datetime.utcnow() + timedelta(hours=2)),
             "driver": "aarelaponin@gmail.com",
             "target_location_name": r.target_location_name.encode('utf-8'),
             "target_location_lat": r.target_location_lat,
