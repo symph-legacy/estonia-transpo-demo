@@ -57,10 +57,12 @@ class RideOrderViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         r = serializer.save()
         time_chosen, time_chosen_end = get_begin_end_time(r.time_chosen)
+
+        timestamp = '{} {}'.format(r.day_chosen, time_chosen)
         elem = {
             "order_id": r.id,
             "name": r.name.encode('utf-8'),
-            "timestamp": (datetime.utcnow() + timedelta(hours=2)),
+            "timestamp": datetime.strptime(timestamp, '%d.%m.%Y %H.%M'),
             "driver": "aarelaponin@gmail.com",
             "target_location_name": r.target_location_name.encode('utf-8'),
             "target_location_lat": r.target_location_lat,
@@ -87,6 +89,10 @@ class RideOrderViewSet(viewsets.ModelViewSet):
             elem["target_location_lng"] = location_lng
             elem["time_chosen"] = time_chosen
             elem["time_chosen_end"] = time_chosen_end
+
+            timestamp = '{} {}'.format(r.day_chosen2, time_chosen)
+            elem["timestamp"] = datetime.strptime(timestamp, '%d.%m.%Y %H.%M')
+
             xml = XML_PARAM.format(**elem)
             second_task_id = ecofleet.add_task(xml)
             task_ids["second_trip_taskid"] = second_task_id
@@ -97,11 +103,13 @@ class RideOrderViewSet(viewsets.ModelViewSet):
     def perform_update(self, serializer):
         r = serializer.save()
         time_chosen, time_chosen_end = get_begin_end_time(r.time_chosen)
+
+        timestamp = '{} {}'.format(r.day_chosen, time_chosen)
         elem = {
             "task_id": r.first_trip_taskid,
             "order_id": r.id,
             "name": r.name.encode('utf-8'),
-            "timestamp": (datetime.utcnow() + timedelta(hours=2)),
+            "timestamp": datetime.strptime(timestamp, '%d.%m.%Y %H.%M'),
             "driver": "aarelaponin@gmail.com",
             "target_location_name": r.target_location_name.encode('utf-8'),
             "target_location_lat": r.target_location_lat,
@@ -126,6 +134,10 @@ class RideOrderViewSet(viewsets.ModelViewSet):
             elem["target_location_lng"] = location_lng
             elem["time_chosen"] = time_chosen
             elem["time_chosen_end"] = time_chosen_end
+
+            timestamp = '{} {}'.format(r.day_chosen2, time_chosen)
+            elem["timestamp"] = datetime.strptime(timestamp, '%d.%m.%Y %H.%M'),
+
             xml = XML_UPDATE_PARAM.format(**elem)
 
             ecofleet.update_task(xml)
