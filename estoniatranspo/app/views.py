@@ -62,7 +62,7 @@ class RideOrderViewSet(viewsets.ModelViewSet):
         elem = {
             "order_id": r.id,
             "name": r.name.encode('utf-8'),
-            "timestamp": datetime.strptime(timestamp, '%d.%m.%Y %H.%M'),
+            "timestamp": datetime.strptime(timestamp, '%d.%m.%Y %H.%M').strftime('%Y-%m-%d %H:%M:%S'),
             "driver": "aarelaponin@gmail.com",
             "target_location_name": r.target_location_name.encode('utf-8'),
             "target_location_lat": r.target_location_lat,
@@ -91,7 +91,7 @@ class RideOrderViewSet(viewsets.ModelViewSet):
             elem["time_chosen_end"] = time_chosen_end
 
             timestamp = '{} {}'.format(r.day_chosen2, time_chosen)
-            elem["timestamp"] = datetime.strptime(timestamp, '%d.%m.%Y %H.%M')
+            elem["timestamp"] = datetime.strptime(timestamp, '%d.%m.%Y %H.%M').strftime('%Y-%m-%d %H:%M:%S')
 
             xml = XML_PARAM.format(**elem)
             second_task_id = ecofleet.add_task(xml)
@@ -109,7 +109,7 @@ class RideOrderViewSet(viewsets.ModelViewSet):
             "task_id": r.first_trip_taskid,
             "order_id": r.id,
             "name": r.name.encode('utf-8'),
-            "timestamp": datetime.strptime(timestamp, '%d.%m.%Y %H.%M'),
+            "timestamp": datetime.strptime(timestamp, '%d.%m.%Y %H.%M').strftime('%Y-%m-%d %H:%M:%S'),
             "driver": "aarelaponin@gmail.com",
             "target_location_name": r.target_location_name.encode('utf-8'),
             "target_location_lat": r.target_location_lat,
@@ -136,7 +136,7 @@ class RideOrderViewSet(viewsets.ModelViewSet):
             elem["time_chosen_end"] = time_chosen_end
 
             timestamp = '{} {}'.format(r.day_chosen2, time_chosen)
-            elem["timestamp"] = datetime.strptime(timestamp, '%d.%m.%Y %H.%M'),
+            elem["timestamp"] = datetime.strptime(timestamp, '%d.%m.%Y %H.%M').strftime('%Y-%m-%d %H:%M:%S')
 
             xml = XML_UPDATE_PARAM.format(**elem)
 
