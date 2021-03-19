@@ -7,7 +7,7 @@ contextlib2==0.5.5
 Django==1.11.14
 django-cors-headers==2.4.0
 django-request-logging==0.6.5
-djangorestframework==3.8.2
+djangorestframework==3.11.2
 enum34==1.1.6
 futures==3.2.0
 idna==2.7
